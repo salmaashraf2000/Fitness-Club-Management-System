@@ -125,12 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      if($_POST['Shift']==='morning')
      {
          $startShift=8;
-         $endShift=2;
+         $endShift=14;
 
      } else 
      {
-         $startShift=2;
-         $endShift=10;
+         $startShift=14;
+         $endShift=22;
          
      }
      $admin->AddTrainer($trainer,$_POST['packageNo'],$startShift,$endShift);
@@ -173,8 +173,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <input type="radio" name="Gender" value="male">Male   <?php echo $genderErr;?>
   <br><br>
   Shift:
-  <input type="radio" name="Shift"  value="morning">Morning (8->2)
-  <input type="radio" name="Shift" value="evening">Evening (2->10)   <?php echo $ShiftErr;?>
+  <input type="radio" name="Shift"  value="morning">Morning (8:00->14:00)
+  <input type="radio" name="Shift" value="evening">Evening (14:00->20:00)   <?php echo $ShiftErr;?>
   <br><br>
   Package Number: <input type="number" name="packageNo" ><?php echo $packageNoErr;?>
   <br><br>

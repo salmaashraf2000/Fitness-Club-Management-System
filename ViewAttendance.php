@@ -1,56 +1,51 @@
 <?php
 
 require 'Admin.php';
-$membersAttendance="";
 $Err="";
         
-function test_input($input) {
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
-  }
   $admin= new Admin();
   $trainers =$admin->GetTrainers();
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    echo 'giiiii';
-    echo $_POST['getTrainers']." ".$_POST['time']." ",$_POST['Date'];
-   /* if($_POST['trainers'] == '' || $_POST['time'] || $_POST['Date']){
+  
+   
+    if( $_POST['getTrainers']=="")
+    {
         $Err='*All fields must be selected';
-    } else {*/
-        $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$_POST['Date']);
-   // }
+    }
+        
+    if( $_POST['time']=="")
+    {
+        $Err='*All fields must be selected';    
+    }
     
+   
+    
+        
+       
+    if($Err==""){
+        
+       $c="";
+       
+       $date=$_POST['Date'];
+        $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$date);
+
+    }
+    /*<script>
+function DisplayTable() 
+{
+      document.getElementById("viewAttendance").style.visibility = "block";
+      
+      return false;
+    
+}
+</script>*/
     
 }    
-/*<script>
-function DisplayTable() 
-{
-  if(!$error_fields)
-  {
-      document.getElementById("myP1").style.display = "none";
-    <?php   $admin= new Admin();
-     $membersAttendance=$admin->ViewMembersAttendance(); ?>
-  }else
-  {
-    <?php echo 'NO Results'; ?>
-  }    
-  
-}
- * 
- * 
- * <option value="<?php $row['ID']?>"><?php $row['FirstName'].' '.$row['LastName']?></option>
-</script>*/
+
 ?>
 
-<script>
-function DisplayTable() 
-{
-      document.getElementById("viewAttendance").style.display = "block";
-    
-}
-</script>
+
 
 <html>
     <head>
@@ -58,8 +53,8 @@ function DisplayTable()
         <title></title>
     </head>
     <body>
-        <form>
-            Trainer Name : <select id="trainers" name="getTrainers">
+        <form method="post" action="<?=$_SERVER['PHP_SELF'];?>"  >
+            Trainer Name : <select name="getTrainers">
                 <option value=""></option>
                 <?php foreach ($trainers as $row){ 
                 $name=$row['FirstName'].' '.$row['LastName'];
@@ -68,29 +63,30 @@ function DisplayTable()
                 
             </select>
             
-            Session Time : <select id="Time" name="time">
+            Session Time : <select  name="time">
                 
                 <option value=""></option>
-                <option value="8-10">8 to 10</option>
-                <option value="10-12">10 to 12</option>
-                <option value="12-2">12 to 2</option>
-                <option value="2-4">2 to 4</option>
-                <option value="4-6">4 to 6</option>
-                <option value="6-8">6 to 8</option>
-                <option value="8-10">8 to 10</option>
+                <option value="8-10">8:00 to 10:00</option>
+                <option value="10-12">10:00 to 12:00</option>
+                <option value="12-14">12:00 to 14:00</option>
+                <option value="14-16">14:00 to 16:00</option>
+                <option value="16-18">16:00 to 18:00</option>
+                <option value="18-20">18:00 to 20:00</option>
+                <option value="20-22">20:00 to 20:00</option>
                 
             </select>
             
-            Date : <input type="date" id="Date" name="Date">
+            Date : <input type="date" id="Date" name="Date" required>
             <br><br>
-            <input type="button" onclick="DisplayTable()" value="Show Attendance">
+            <input type="submit" name="btn"  value="Show Attendance">
             <br><br>
             <?php echo $Err;?>
-        </form>
+            <br><br>
         
+             </form> 
         
-        
-        <table id="viewAttendance"  style="display: none" cellpadding="8">
+        <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $Err=="" && $membersAttendance){ ?>
+        <table id="viewAttendance" name="viewAttendance"  cellpadding="8">
             <thread>
                 <tr>
                     <th>Member Name</th>
@@ -98,15 +94,18 @@ function DisplayTable()
              
                 </tr>
             </thread>   
-            <?php   foreach ($membersAttendance as $Row){ ?>
-                <tr>
-                    <td><?= $Row['FirstName'].' '.$Row['LastName']?></td>
-                    <td><?= $Row['Attendance']?></td>
+            <?php   foreach ($membersAttendance as $Row){ 
+                 echo "<tr>";
+                    echo '<td>'. $Row['FirstName'].' '.$Row['LastName'] .'</td>';
+                    echo '<td>'. $Row['Attendance'] .'</td>';
                    
-                </tr>    
-            <?php } ?>     
+               echo "</tr>";    
+             } ?>     
         </table>
-        
+        <br><br>
+       <?php }else{
+          echo 'No Results to show';
+       } ?>  
     </body>
 </html>
 

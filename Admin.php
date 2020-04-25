@@ -132,6 +132,7 @@ class Admin extends Person{
     //view attendance of members taken by trainer
     public function ViewMembersAttendance($trainerID,$sessionTime,$date)
     {
+        
         $sessionStart;
         $sessionEnd;
         if($sessionTime==='8-10')
@@ -142,38 +143,34 @@ class Admin extends Person{
         {
             $sessionStart=10;
             $sessionEnd=12;
-        }else if($sessionTime==='12-2')
+        }else if($sessionTime==='12-14')
         {
             $sessionStart=12;
-            $sessionEnd=2;   
-        }else if($sessionTime==='2-4')
+            $sessionEnd=14;   
+        }else if($sessionTime==='14-16')
         {
-            $sessionStart=2;
-            $sessionEnd=4;
-        }else if($sessionTime==='4-6')
+            $sessionStart=14;
+            $sessionEnd=16;
+        }else if($sessionTime==='16-18')
         {
-            $sessionStart=4;
-            $sessionEnd=6;
-        }else if($sessionTime==='6-8')
+            $sessionStart=16;
+            $sessionEnd=18;
+        }else if($sessionTime==='18-20')
         {
-            $sessionStart=6;
-            $sessionEnd=8;
+            $sessionStart=18;
+            $sessionEnd=20;
         }else
         {
-            $sessionStart=8;
-            $sessionEnd=10;
+            $sessionStart=20;
+            $sessionEnd=22;
         }
         $table1='MembersAttendance as a';
         $table2='UsersInformation as u';
         $fields='u.FirstName,u.LastName,a.Attendance';
-        //$r=date_format($date,"Y-m-d");
-       // $date=  str_replace('/"', '-', $date);
-        //$date= date("Y/m/d", strtotime($date)); 
-        $date = new DateTime($date);
-         $r = $date->format('Y-m-d');
-        $result= $this->selectJoin($table1,"a.Date=$r AND a.sessionStartTime=$sessionStart AND a.sessionEndTime=$sessionEnd AND a.TrainerId=$trainerID",$fields,'',$table2,'u.ID=a.MemberId');
+        $result= $this->selectJoin($table1,"a.Date='$date' AND a.sessionStartTime=$sessionStart AND a.sessionEndTime=$sessionEnd AND a.TrainerId=$trainerID",$fields,'',$table2,'u.ID=a.MemberId');
+        echo $this->countRows();
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     //selectJoin($table1,$where='',$fields='*',$order='',$table2,$on1='',$table3='',$on2='',$table4='',$on3='')
-}
+}/*SELECT u.FirstName,u.LastName,a.Attendance FROM MembersAttendance as a LEFT JOIN UsersInformation as u ON u.ID=a.MemberId WHERE a.Date='2020-04-23' AND a.sessionStartTime=4 AND a.sessionEndTime=6 AND a.TrainerId=28*/
 ?>
