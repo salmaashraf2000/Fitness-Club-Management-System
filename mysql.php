@@ -57,11 +57,11 @@ trait mysql{
                 return $this->query($query);
             }
             
-             public function selectJoin($table1,$where='',$fields='*',$order='',$table2,$on1='',$table3='',$on2='',$table4='',$on3='')
+             public function selectJoin($table1,$where='',$fields='*',$order='',$table2,$left1=0,$on1='',$table3='',$left2=0,$on2='',$table4='',$left3=0,$on3='')
             {
-                $query='SELECT '.$fields.' FROM '.$table1.' LEFT JOIN '.$table2.' ON '.$on1
-                        .(($table3)? ' LEFT JOIN '.$table3.' ON '.$on2: '')
-                        .(($table4)? ' LEFT JOIN '.$table4.' ON '.$on3: '')
+                $query='SELECT '.$fields.' FROM '.$table1.(($left1)?' LEFT':'' ).' JOIN '.$table2.' ON '.$on1
+                        .(($left2)?' LEFT':'' ).(($table3)? ' JOIN '.$table3.' ON '.$on2: '')
+                        .(($left3)?' LEFT':'' ).(($table4)? ' JOIN '.$table4.' ON '.$on3: '')
                         .(($where)? ' WHERE '.$where :'')
                         .(($order)? ' ORDER BY '.$order:'');
                 return $this->query($query);

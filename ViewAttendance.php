@@ -23,12 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     
         
        
-    if($Err==""){
+    if($Err=="")
+    {
         
-       $c="";
-       
        $date=$_POST['Date'];
-        $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$date);
+       $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$date);
 
     }
     /*<script>

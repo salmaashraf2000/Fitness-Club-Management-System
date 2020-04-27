@@ -5,8 +5,8 @@
         <group>
             <file>file:/C:/xampp/htdocs/PhpProject/Delete.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/mysql.php</file>
-            <file>file:/C:/xampp/htdocs/PhpProject/AddTrainer.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewAttendance.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/AddTrainer.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewMembers.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewTrainers.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/AddMember.php</file>
@@ -19,8 +19,9 @@
             <file>file:/C:/xampp/htdocs/PhpProject/Package.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Trainer.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/person.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/ViewMembersToTakeAttendance.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/config.php</file>
-            <file>file:/C:/xampp/htdocs/PhpProject/TrainerTakeMembersAttendance.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/TrainerTakeAttendance.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Enrollment.php</file>
         </group>
     </open-files>

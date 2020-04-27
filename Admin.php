@@ -1,22 +1,22 @@
 <?php
 //require 'mysql.php';
 //require 'config.php';
-require 'person.php';
-require 'Package.php';
-require 'Member.php';
-require 'Trainer.php';
+require_once 'person.php';
+require_once 'Package.php';
+require_once 'Member.php';
+require_once  'Trainer.php';
 class Admin extends Person{
     
-    use mysql
+    /*use mysql
     {
         mysql::__construct as private __mysqlconstruct1;
-    }
+    }*/
     public function __construct()
     {
-        global $config;
+        //global $config;
         //call trait constructor
        // parent::__construct($config);
-       $this->__mysqlconstruct1($config);
+       //$this->__mysqlconstruct1($config);
     }
    
     //add member
@@ -78,12 +78,13 @@ class Admin extends Person{
         $date= date("Y-m-d");
         $usertype=$row['userTypeNumber'];
        // $result= $this->selectJoin("UsersInformation as m","m.UserTypeNumber='"+$row['userTypeNumber']+"'",$fields,"","EnrollementOfMember as e","m.ID=e.MemberID  AND $date<=e.EndDate","TrainersShiftInfo as t","t.TrainerId=e.TrainerID"); 
-        $result= $this->selectJoin("UsersInformation as m","m.UserTypeNumber=$usertype",$fields,"","EnrollementOfMember as e","m.ID=e.MemberID AND $date<=e.EndDate","TrainersShiftInfo as t","t.TrainerId=e.TrainerID","UsersInformation as tr","tr.ID=e.TrainerID"); 
+        $result= $this->selectJoin("UsersInformation as m","m.UserTypeNumber=$usertype",$fields,"","EnrollementOfMember as e",1,"m.ID=e.MemberID AND $date<=e.EndDate","TrainersShiftInfo as t",1,"t.TrainerId=e.TrainerID","UsersInformation as tr",1,"tr.ID=e.TrainerID"); 
 
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
-    public function CheckIfPackageExist($packageNo){
+    public function CheckIfPackageExist($packageNo)
+    {
         $this->select('Packages',"PackageNumber='$packageNo'",'*','');
         return $this->countRows();
     }
@@ -103,7 +104,7 @@ class Admin extends Person{
         $row= mysqli_fetch_assoc($result);
         $fields='t.ID as id,t.FirstName,t.LastName,t.PhoneNumber,t.Email,s.TimeStartingShift,s.TimeEndingShift,s.packageNo';
         $usertype=$row['userTypeNumber'];
-        $result= $this->selectJoin("UsersInformation as t","t.UserTypeNumber=$usertype",$fields,"","TrainersShiftInfo as s","t.ID=s.TrainerId"); 
+        $result= $this->selectJoin("UsersInformation as t","t.UserTypeNumber=$usertype",$fields,"","TrainersShiftInfo as s",0,"t.ID=s.TrainerId"); 
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
@@ -119,13 +120,13 @@ class Admin extends Person{
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
-    //get all tainers working
+    //get name and id for all tainers working
     public function GetTrainers()
     {
         $table1="TrainersShiftInfo as t";
         $table2="UsersInformation as u";
         $fields="u.FirstName,u.LastName,u.ID";
-        $result= $this->selectJoin($table1,'',$fields,'',$table2,'u.ID=TrainerId');
+        $result= $this->selectJoin($table1,'',$fields,'',$table2,0,'u.ID=TrainerId');
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
@@ -167,7 +168,7 @@ class Admin extends Person{
         $table1='MembersAttendance as a';
         $table2='UsersInformation as u';
         $fields='u.FirstName,u.LastName,a.Attendance';
-        $result= $this->selectJoin($table1,"a.Date='$date' AND a.sessionStartTime=$sessionStart AND a.sessionEndTime=$sessionEnd AND a.TrainerId=$trainerID",$fields,'',$table2,'u.ID=a.MemberId');
+        $result= $this->selectJoin($table1,"a.Date='$date' AND a.sessionStartTime=$sessionStart AND a.sessionEndTime=$sessionEnd AND a.TrainerId=$trainerID",$fields,'',$table2,0,'u.ID=a.MemberId');
         echo $this->countRows();
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
