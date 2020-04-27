@@ -17,7 +17,7 @@ class Trainer extends Person{
     //check if the session time belong to this trainer
     public function CheckIfSessionBelongToTrainer($sessionTime,$trainerID)
     {
-        echo ' ana f belong';
+         
         $sessionStart;
         $sessionEnd;
         if($sessionTime==='8-10')
@@ -65,19 +65,19 @@ class Trainer extends Person{
     //get names of members of the current session
     public function GETMembersOfSession($sessionTime,$trainerID)
     {
-        echo ' ana f get';
+        
         $sessionStart= $this->CheckIfSessionBelongToTrainer($sessionTime,/*$trainerID*/22);
      
         $sessionEnd=$sessionStart+2;
         if($sessionStart==false)
         {
-            echo ' ana f get f awel if';
+            
             return 0;
         } 
         $taken=$this->CheckIfAttendanceIsTaken($sessionStart,$sessionEnd,/*$trainerID*/22);
         if($taken==true)
         {
-            echo ' ana f get f tany if';
+            
             return -1;
         }
         
@@ -95,7 +95,7 @@ class Trainer extends Person{
     //record the attendance of members
     public function TakeMembersAttendance(array $membersNames,array $checkedMembers,$TrainerId)
     {
-        echo ' ana f take';
+        
         $currentDate= date("Y-m-d");
         $table='MembersAttendance';
         $sessionStart;
@@ -136,7 +136,7 @@ class Trainer extends Person{
     //check if attendance already taken
     public function CheckIfAttendanceIsTaken($sessionStart,$sessionEnd,$TrainerId)
     {
-        echo ' ana f check atten';
+        
         $table='MembersAttendance';
         $currentDate= date("Y-m-d");
         $result= $this->select($table,"TrainerId=$TrainerId AND sessionStartTime=$sessionStart AND sessionEndTime=$sessionEnd AND Date='$currentDate'");
@@ -149,7 +149,6 @@ class Trainer extends Person{
             return false;
         }
     }
-    //selectJoin($table1,$where='',$fields='*',$order='',$table2,$on1='',$table3='',$on2='',$table4='',$on3='')
 
     //SELECT u.ID,u.FirstName,u.LastName FROM EnrollementOfMember as e LEFT JOIN UsersInformation as u ON e.MemberID=u.ID AND e.StartDate<='2020-04-25' AND e.EndDate>='2020-04-25' AND e.TrainerID=28 AND e.SessionStartTime=16 AND e.SessionEndTime=18
 }
