@@ -1,10 +1,28 @@
 <?php
 require_once 'Person.php';
-class Trainer extends Person{
+require_once 'Profile.php';
+class Trainer extends Person implements Profile{
     
-    public $TimeStartingShift;
-    public $TimeEndingShift;
-   /* use mysql
+    private $TimeStartingShift;
+    private $TimeEndingShift;
+    
+    public function getTimeStartingShift() {
+        return $this->TimeStartingShift;
+    }
+
+    public function getTimeEndingShift() {
+        return $this->TimeEndingShift;
+    }
+
+    public function setTimeStartingShift($TimeStartingShift) {
+        $this->TimeStartingShift = $TimeStartingShift;
+    }
+
+    public function setTimeEndingShift($TimeEndingShift) {
+        $this->TimeEndingShift = $TimeEndingShift;
+    }
+
+       /* use mysql
     {
         mysql::__construct as private __mysqlconstruct;
     }
@@ -114,11 +132,11 @@ class Trainer extends Person{
                $memberId=$row['ID'];
                $result= $this->select($table1,"TrainerID=$TrainerId AND MemberID=$memberId AND StartDate<='$currentDate' AND EndDate>='$currentDate'",$fields,'');
               
-               while ($Row= mysqli_fetch_assoc($result))
-               {
-                   $sessionStart=$Row['SessionStartTime'];
-                   $sessionEnd=$Row['SessionEndTime'];
-               }
+               $Row= mysqli_fetch_assoc($result);
+               
+               $sessionStart=$Row['SessionStartTime'];
+               $sessionEnd=$Row['SessionEndTime'];
+               
               
                
             } 
@@ -149,6 +167,21 @@ class Trainer extends Person{
             return false;
         }
     }
-
+    //view profile
+    public function ViewProfile($ID)
+    {
+        $table1='UsersInformation as u';
+        $table2='TrainersShiftInfo as t';
+        $fields='u.FirstName,u.LastName,u.PhoneNumber,u.Email,t.TimeStartingShift,t.TimeEndingShift,t.packageNo';
+        $result= $this->selectJoin($table1,'', $fields,'',$table2,0,"u.ID=t.TrainerId AND u.ID='$ID'");
+        return mysqli_fetch_assoc($result);
+    }
+    /*//edit profile
+    public function EditProfile($ID,$password,$phoneNumber) 
+    {
+        $table='UsersInformation';
+        $data=array('PhoneNumber'=> $trainer->PhoneNumber,'Password'=>$trainer->Password);
+        $this->update($table, $data,"ID=$ID");
+    }*/
     //SELECT u.ID,u.FirstName,u.LastName FROM EnrollementOfMember as e LEFT JOIN UsersInformation as u ON e.MemberID=u.ID AND e.StartDate<='2020-04-25' AND e.EndDate>='2020-04-25' AND e.TrainerID=28 AND e.SessionStartTime=16 AND e.SessionEndTime=18
 }

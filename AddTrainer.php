@@ -1,25 +1,42 @@
 <?php
 
-require 'Admin.php';
-require 'Trainer.php';
+require_once 'Admin.php';
+require_once 'Trainer.php';
+require_once 'Validation.php';
+
 //session_start();
 
-$error_fields=array();
-$FirstName= $Email = $LastName  =" ";
+$valid=new Validation();
+$FirstName= $Email = $LastName  =$Age=$PackageNo=$PhoneNumber="";
 $msg="";
 $FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr =$ShiftErr= $packageNoErr="";
  
-function test_input($input) {
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
-  }
+
   
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
+    $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
+    $_POST['LastName']= $valid->test_input($_POST['LastName']);
+    $_POST['Email']= $valid->test_input($_POST['Email']);
+    $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
     
-    $_POST['FirstName']=test_input($_POST['FirstName']);
+    $FirstnameErr=$valid->Name($_POST['FirstName']);
+    $LastnameErr=$valid->Name($_POST['LastName']);
+    $emailErr=$valid->Email($_POST['Email']);
+    $passwordErr=$valid->Password($_POST['Password']);
+    $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
+    $AgeErr=$valid->Age($_POST['Age']);
+    $genderErr=$valid->Gender($_POST["Gender"]);
+    $ShiftErr=$valid->Number($_POST['Shift']);
+    $packageNoErr=$valid->Number($_POST['packageNo']);
+    
+    $FirstName=$_POST['FirstName'];
+    $LastName=$_POST['LastName'];
+    $Email=$_POST['Email'];
+    $Age=$_POST['Age'];
+    $PhoneNumber=$_POST['PhoneNumber'];
+    $PackageNo=$_POST['packageNo'];
+   /* $_POST['FirstName']=test_input($_POST['FirstName']);
     $_POST['LastName']= test_input($_POST['LastName']);
     $_POST['Email']= test_input($_POST['Email']);
     $_POST['PhoneNumber']= test_input($_POST['PhoneNumber']);
@@ -61,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
       $Email=$_POST['Email'];
       $emailErr='*Email not valid';
+  }else if($admin->CheckIfEmailExists($_POST['Email'])==true)
+  {
+      $emailErr='*Email already exists';
   }
     
   if (! (isset($_POST['Password']) && strlen($_POST['Password'])>7)) 
@@ -92,9 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if (empty($_POST['Gender'])) 
   {
     $genderErr='*Gender is required field';
-  } 
+  } */
   
-  if (empty($_POST['Shift'])) 
+  /*if (empty($_POST['Shift'])) 
   {
     $ShiftErr='*Shift is required field';
   } 
@@ -102,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     
     $packageNoErr='*Package Number is required field';
-  }
+  }*/
   
    $admin=new Admin();
   if($packageNoErr=="" && ($admin->CheckIfPackageExist($_POST['packageNo']))!==1){
@@ -112,15 +132,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="" && $ShiftErr=="" && $packageNoErr=="")
   {
      
-     
+     $password= password_hash($_POST['Password'], PASSWORD_DEFAULT);
      $trainer=new Trainer();
-     $trainer->FirstName=$_POST['FirstName'];
-     $trainer->LastName=$_POST['LastName'];
-     $trainer->PhoneNumber=$_POST['PhoneNumber'];
-     $trainer->Email=$_POST['Email'];
-     $trainer->Age=$_POST['Age'];
-     $trainer->Gender=$_POST['Gender'];
-     $trainer->Password=$_POST['Password'];
+     $trainer->setFirstName($_POST['FirstName']);
+     $trainer->setLastName($_POST['FirstName']);
+     $trainer->setPhoneNumber($_POST['PhoneNumber']);
+     $trainer->setEmail($_POST['Email']);
+     $trainer->setAge($_POST['Age']);
+     $trainer->setGender($_POST['Gender']);
+     $trainer->setPassword($password);
      
      if($_POST['Shift']==='morning')
      {
@@ -164,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <br><br>
   Password: <input type="password" name="Password"  ><?php echo $passwordErr;?>
   <br><br>
-  Phone Number: <input type="tel" id="PhoneNumber" name="PhoneNumber" pattern="[0]{1}[1]{1}[0-9]{9}"><?php echo $PhoneErr;?>
+  Phone Number: <input type="tel" id="PhoneNumber" name="PhoneNumber" pattern="[0]{1}[1]{1}[0-9]{9}" value="<?php echo $PhoneNumber;?>"><?php echo $PhoneErr;?>
   <br><br>
   Age: <input type="number" name="Age" value="<?php echo $Age;?>" ><?php echo $AgeErr;?>
   <br><br>
@@ -176,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <input type="radio" name="Shift"  value="morning">Morning (8:00->14:00)
   <input type="radio" name="Shift" value="evening">Evening (14:00->20:00)   <?php echo $ShiftErr;?>
   <br><br>
-  Package Number: <input type="number" name="packageNo" ><?php echo $packageNoErr;?>
+  Package Number: <input type="number" name="packageNo" min="1" value="<?php echo $PackageNo;?>"><?php echo $packageNoErr;?>
   <br><br>
   <input type="submit" name="submit" value="Submit" >  
 </form>

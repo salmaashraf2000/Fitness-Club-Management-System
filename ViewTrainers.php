@@ -8,7 +8,7 @@ $trainers=$admin->ViewTrainers();
 
 ?>
 
-</script>
+
 <html>
     <head>
         <meta charset="UTF-8">

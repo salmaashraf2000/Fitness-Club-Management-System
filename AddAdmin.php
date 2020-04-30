@@ -1,23 +1,36 @@
 <?php
 
-require 'Admin.php';
+require_once 'Admin.php';
+require_once 'Validation.php';
 //session_start();
 
-$error_fields=array();
+
 $FirstName= $Email = $LastName  =" ";
 $FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr ="";
 $msg=""; 
+$valid=new Validation();
 
-function test_input($input) {
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
-  }
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
+    $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
+    $_POST['LastName']= $valid->test_input($_POST['LastName']);
+    $_POST['Email']= $valid->test_input($_POST['Email']);
+    $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
     
-    $_POST['FirstName']=test_input($_POST['FirstName']);
+    $FirstnameErr=$valid->Name($_POST['FirstName']);
+    $LastnameErr=$valid->Name($_POST['LastName']);
+    $emailErr=$valid->Email($_POST['Email']);
+    $passwordErr=$valid->Password($_POST['Password']);
+    $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
+    $AgeErr=$valid->Age($_POST['Age']);
+    $genderErr=$valid->Gender($_POST["Gender"]);
+    
+    $FirstName=$_POST['FirstName'];
+    $LastName=$_POST['LastName'];
+    $Email=$_POST['Email'];
+    $Age=$_POST['Age'];
+    $PhoneNumber=$_POST['PhoneNumber'];
+    /*$_POST['FirstName']=test_input($_POST['FirstName']);
     $_POST['LastName']= test_input($_POST['LastName']);
     $_POST['Email']= test_input($_POST['Email']);
     $_POST['PhoneNumber']= test_input($_POST['PhoneNumber']);
@@ -59,6 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
       $Email=$_POST['Email'];
       $emailErr='*Email not valid';
+  }else if($admin->CheckIfEmailExists($_POST['Email'])==true)
+  {
+      $emailErr='*Email already exists';
   }
     
   if (! (isset($_POST['Password']) && strlen($_POST['Password'])>7)) 
@@ -90,18 +106,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if (empty($_POST["Gender"])) 
   {
     $genderErr='*Gender is required field';
-  } 
+  } */
   if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="")
   {
-     
+     $password= password_hash($_POST['Password'], PASSWORD_DEFAULT);
      $admin=new Admin();
-     $admin->FirstName=$_POST['FirstName'];
-     $admin->LastName=$_POST['FirstName'];
-     $admin->PhoneNumber=$_POST['PhoneNumber'];
-     $admin->Email=$_POST['Email'];
-     $admin->Age=$_POST['Age'];
-     $admin->Gender=$_POST['Gender'];
-     $admin->Password=$_POST['Password'];
+     $admin->setFirstName($_POST['FirstName']);
+     $admin->setLastName($_POST['FirstName']);
+     $admin->setPhoneNumber($_POST['PhoneNumber']);
+     $admin->setEmail($_POST['Email']);
+     $admin->setAge($_POST['Age']);
+     $admin->setGender($_POST['Gender']);
+     $admin->setPassword($password);
      $admin->AddAdmin($admin);
   $msg='Admin added Successfully';
   }else

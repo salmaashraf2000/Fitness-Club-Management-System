@@ -79,7 +79,7 @@ trait mysql{
             public function update($table, array $data,$where='')
             {
                 $set =array();
-                foreach ($data as $field->$value)
+                foreach ($data as $field=>$value)
                 {
                     $set[]=$field. '='.$this->Escape($value);
                 }

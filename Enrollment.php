@@ -2,12 +2,12 @@
 
 class Enrollment{
      
-   public $SessionStartTime;
-   public $SessionEndTime;
-   public $StartDate;
-   public $EndDate;  
-   public $Payment; 
-   public $packageNo;
+    private $SessionStartTime;
+    private $SessionEndTime;
+    private $StartDate;
+    private $EndDate;  
+    private $Payment; 
+    private $packageNo;
    
 }
 

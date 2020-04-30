@@ -1,32 +1,46 @@
 <?php
 
-require 'Admin.php';
-require 'Trainer.php';
+require_once 'Admin.php';
+require_once 'Trainer.php';
+require_once 'Validation.php';
 //session_start();
 
 $PackageInfo=$JacuzziNo=$SpaNo=$SteamNo=$SaunaNo=$NumberOfMonths=$Price=$Discount="";
 $PackageInfoErr=$JacuzziNoErr=$SpaNoErr=$SteamNoErr=$SaunaNoErr=$NumberOfMonthsErr=$PriceErr=$DiscountErr=""; 
 $msg="";
-function test_input($input) {
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
-  }
-  
+
+$valid=new Validation();  
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     
-    $_POST['PackageInfo']=test_input($_POST['PackageInfo']);
-    $_POST['JacuzziNo']= test_input($_POST['JacuzziNo']);
-    $_POST['SpaNo']= test_input($_POST['SpaNo']);
-    $_POST['SteamNo']= test_input($_POST['SteamNo']);
-    $_POST['SaunaNo']= test_input($_POST['SaunaNo']);
-    $_POST['NumberOfMonths']= test_input($_POST['NumberOfMonths']);
-    $_POST['Price']= test_input($_POST['Price']);
-    $_POST['Discount']= test_input($_POST['Discount']);
-   
-  if (! (isset($_POST['PackageInfo']) && !empty($_POST["PackageInfo"]))) 
+    $_POST['PackageInfo']=$valid->test_input($_POST['PackageInfo']);
+    $_POST['JacuzziNo']= $valid->test_input($_POST['JacuzziNo']);
+    $_POST['SpaNo']= $valid->test_input($_POST['SpaNo']);
+    $_POST['SteamNo']= $valid->test_input($_POST['SteamNo']);
+    $_POST['SaunaNo']= $valid->test_input($_POST['SaunaNo']);
+    $_POST['NumberOfMonths']= $valid->test_input($_POST['NumberOfMonths']);
+    $_POST['Price']= $valid->test_input($_POST['Price']);
+    $_POST['Discount']= $valid->test_input($_POST['Discount']);
+    
+    $PackageInfoErr=$valid->Text($_POST["PackageInfo"]);
+    $JacuzziNoErr=$valid->Number($_POST['JacuzziNo']);
+    $SpaNoErr=$valid->Number($_POST['SpaNo']);
+    $SteamNoErr=$valid->Number($_POST['SteamNo']);
+    $SaunaNoErr=$valid->Number($_POST['SaunaNo']);
+    $NumberOfMonthsErr=$valid->Number($_POST['NumberOfMonths']);
+    $PriceErr=$valid->Number($_POST['Price']);  
+    $DiscountErr=$valid->Number($_POST['Discount']);
+           
+    $PackageInfo=$_POST['PackageInfo'];
+    $JacuzziNo=$_POST['JacuzziNo'];
+    $SpaNo=$_POST['SpaNo'];
+    $SteamNo=$_POST['SteamNo'];   
+    $SaunaNo=$_POST['SaunaNo'];
+    $NumberOfMonths=$_POST['NumberOfMonths'];   
+    $Price=$_POST['Price'];
+    $Discount=$_POST['Discount'];   
+            
+  /*if (! (isset($_POST['PackageInfo']) && !empty($_POST["PackageInfo"]))) 
   {
     
     $PackageInfoErr='*This field is required';
@@ -71,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
    
     $DiscountErr='*This field is required';
-  }
+  }*/
   
   
   

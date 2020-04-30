@@ -1,15 +1,18 @@
 <?php
 
-require 'Admin.php';
-$Err="";
+require_once 'Admin.php';
+require_once 'Validation.php';
+$trainerErr=$timeErr="";
         
   $admin= new Admin();
   $trainers =$admin->GetTrainers();
+  $valid=new Validation();
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   
-   
-    if( $_POST['getTrainers']=="")
+    $trainerErr=$valid->Text($_POST['getTrainers']);
+    $timeErr=$valid->Text($_POST['time']);
+    /*if( $_POST['getTrainers']=="")
     {
         $Err='*All fields must be selected';
     }
@@ -17,13 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if( $_POST['time']=="")
     {
         $Err='*All fields must be selected';    
-    }
+    }*/
     
    
     
         
        
-    if($Err=="")
+    if($trainerErr=="" && $timeErr=="")
     {
         
        $date=$_POST['Date'];
@@ -60,8 +63,8 @@ function DisplayTable()
                 echo "<option value=" .$row['ID'].">" .$name. "</option>";
                 } ?>
                 
-            </select>
-            
+            </select><?php echo $trainerErr;?>
+            <br><br>
             Session Time : <select  name="time">
                 
                 <option value=""></option>
@@ -73,18 +76,18 @@ function DisplayTable()
                 <option value="18-20">18:00 to 20:00</option>
                 <option value="20-22">20:00 to 20:00</option>
                 
-            </select>
-            
+            </select><?php echo $timeErr;?>
+            <br><br>
             Date : <input type="date" id="Date" name="Date" required>
             <br><br>
             <input type="submit" name="btn"  value="Show Attendance">
             <br><br>
-            <?php echo $Err;?>
+            
             <br><br>
         
              </form> 
         
-        <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $Err=="" && $membersAttendance){ ?>
+        <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $trainerErr=="" && $timeErr=="" && $membersAttendance){ ?>
         <table id="viewAttendance" name="viewAttendance"  cellpadding="8">
             <thread>
                 <tr>

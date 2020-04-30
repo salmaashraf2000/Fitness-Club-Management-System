@@ -1,4 +1,4 @@
-<?php
+<?php/*
 
 require 'Admin.php';
 require 'Trainer.php';
