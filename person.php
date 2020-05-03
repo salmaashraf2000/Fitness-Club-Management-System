@@ -125,10 +125,10 @@ class Person{
         $id=$_SESSION['id'];
         $hashedPassword= password_hash($password, PASSWORD_DEFAULT);
         $data= array('Password'=>$hashedPassword,'PhoneNumber'=>$PhoneNumber);
-        $this->update($table, $data, "ID='$ID'");
+        $this->update($table, $data, "ID='$id'");
     }
 
-    //get phonumber of user
+    //get phonenumber of user
     public function GetPhone()
     {
         $table='UsersInformation';

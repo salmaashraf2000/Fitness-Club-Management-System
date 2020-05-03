@@ -5,17 +5,26 @@ require 'Admin.php';
 //session_start();
 $admin= new Admin();
 $admins=$admin->ViewAdmins();
-
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    
+        $admins=$admin->SearchAdmin($_POST['search']);
+    
+}
 ?>
 
-</script>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>List Trainers</title>
+        <title>List Admins</title>
     </head>
     <body>
-        <h1>List Trainers</h1>
+        <h1>List Admins</h1>
+         <form method="post">
+            
+            <input type="text" name="search" placeholder="Enter Name or Email to search"/>
+            <input type="submit" value="Search"/>
+        </form>
         <table cellpadding="8">
             <thread>
                 <tr>
@@ -34,7 +43,7 @@ $admins=$admin->ViewAdmins();
                     <td><?= '0'.$row['PhoneNumber']?></td>
                     <td><?= $row['Email']?></td>
                     
-                    <td><a href="delete.php?id=<?= $row['id']?>">Delete<a/></td>
+                    <td><a href="Delete.php?id=<?= $row['id']?>">Delete<a/></td>
                 </tr>    
             <?php } ?>     
         </table>

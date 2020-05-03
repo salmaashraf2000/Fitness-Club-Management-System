@@ -5,9 +5,20 @@ require_once 'Trainer.php';
 require_once 'Validation.php';
 //session_start();
 
-$PackageInfo=$JacuzziNo=$SpaNo=$SteamNo=$SaunaNo=$NumberOfMonths=$Price=$Discount="";
 $PackageInfoErr=$JacuzziNoErr=$SpaNoErr=$SteamNoErr=$SaunaNoErr=$NumberOfMonthsErr=$PriceErr=$DiscountErr=""; 
 $msg="";
+$PackageNumber= filter_input(INPUT_GET,'PackageNumber',FILTER_SANITIZE_NUMBER_INT);
+$PackageInfo= filter_input(INPUT_GET,'PackageInfo',FILTER_SANITIZE_STRING);
+$JacuzziNo= filter_input(INPUT_GET,'JacuzziNo',FILTER_SANITIZE_NUMBER_INT);
+$SpaNo= filter_input(INPUT_GET,'SpaNo',FILTER_SANITIZE_NUMBER_INT);
+$SteamNo= filter_input(INPUT_GET,'SteamNo',FILTER_SANITIZE_NUMBER_INT);
+$SaunaNo= filter_input(INPUT_GET,'SaunaNo',FILTER_SANITIZE_NUMBER_INT);
+$NumberOfMonths= filter_input(INPUT_GET,'NumberOfMonths',FILTER_SANITIZE_NUMBER_INT);
+$Price= filter_input(INPUT_GET,'Price',FILTER_SANITIZE_NUMBER_INT);
+$Discount= filter_input(INPUT_GET,'Discount',FILTER_SANITIZE_NUMBER_INT);
+
+$admin=new Admin();
+//$package=$admin->GetPackageInfo($PackageNumber);
 
 $valid=new Validation();  
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -31,14 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $PriceErr=$valid->Number($_POST['Price']);  
     $DiscountErr=$valid->Number($_POST['Discount']);
            
-    $PackageInfo=$_POST['PackageInfo'];
-    $JacuzziNo=$_POST['JacuzziNo'];
-    $SpaNo=$_POST['SpaNo'];
-    $SteamNo=$_POST['SteamNo'];   
-    $SaunaNo=$_POST['SaunaNo'];
-    $NumberOfMonths=$_POST['NumberOfMonths'];   
-    $Price=$_POST['Price'];
-    $Discount=$_POST['Discount'];   
+    
             
   /*if (! (isset($_POST['PackageInfo']) && !empty($_POST["PackageInfo"]))) 
   {
@@ -92,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   if($PackageInfoErr=="" && $JacuzziNoErr=="" &&  $SpaNoErr=="" && $SteamNoErr=="" && $SaunaNoErr=="" && $NumberOfMonthsErr=="" && $PriceErr=="" && $DiscountErr=="" )
   {
      
-     $admin=new Admin();
+     
      $package=new Package();
      $package->setPackageInfo($_POST['PackageInfo']);
      $package->setJacuzziNo($_POST['JacuzziNo']);
@@ -102,16 +106,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      $package->setNumberOfMonths($_POST['NumberOfMonths']);
      $package->setPrice($_POST['Price']);
      $package->setDiscount($_POST['Discount']);
-     $admin->AddPackage($package);
-       $msg='Package added Successfully';
+     $admin->EditPackage($package,$PackageNumber);
+       $msg='Package updated Successfully';
+       echo "<script type='text/javascript'>alert('$msg');</script>";
+       header("Location:ViewPackages.php");
   }else
   {
       
-      $msg='Failed to add a Package';
+      $msg='Failed to update the Package all fields must be filled';
+      echo "<script type='text/javascript'>alert('$msg');</script>";
   }
   
  
-  echo "<script type='text/javascript'>alert('$msg');</script>";
+  //echo "<script type='text/javascript'>alert('$msg');</script>";
 
 }
 
@@ -125,23 +132,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     </head>
     <body>
      <form method="post" action="">  
-    Price: <input type="number" name="Price" min="0" value="<?php echo $Price;?>"><?php echo $PriceErr;?>
+    Price: <input type="number" name="Price" min="0" value="<?php echo $Price;?>"><?php// echo $PriceErr;?>
   <br><br>
-  Discount: <input type="number" name="Discount" min="0" value="<?php echo $Discount;?>"><?php echo $DiscountErr;?>
+  Discount: <input type="number" name="Discount" min="0" value="<?php echo $Discount;?>"><?php //echo $DiscountErr;?>
   <br><br>     
-  Number of sessions of Jacuzzi: <input type="number" name="JacuzziNo" min="0" value="<?php echo $JacuzziNo;?>"><?php echo $JacuzziNoErr;?>
+  Number of sessions of Jacuzzi: <input type="number" name="JacuzziNo" min="0" value="<?php echo $JacuzziNo;?>"><?php //echo $JacuzziNoErr;?>
   <br><br>
- Number of sessions of Spa: <input type="number" name="SpaNo" min="0" value="<?php echo $SpaNo;?>"><?php echo $SpaNoErr;?>
+  Number of sessions of Spa: <input type="number" name="SpaNo" min="0" value="<?php echo $SpaNo;?>"><?php //echo $SpaNoErr;?>
   <br><br>
-  Number of sessions of Steam: <input type="number" name="SteamNo" min="0" value="<?php echo $SteamNo;?>"><?php echo $SteamNoErr;?>
+  Number of sessions of Steam: <input type="number" name="SteamNo" min="0" value="<?php echo $SteamNo;?>"><?php //echo $SteamNoErr;?>
   <br><br>
-  Number of sessions of Sauna: <input type="number" name="SaunaNo" min="0" value="<?php echo $SaunaNo;?>"><?php echo $SaunaNoErr;?>
+  Number of sessions of Sauna: <input type="number" name="SaunaNo" min="0" value="<?php echo $SaunaNo;?>"><?php //echo $SaunaNoErr;?>
   <br><br>
-  Package Number of Months: <input type="number" name="NumberOfMonths" min="1" value="<?php echo $NumberOfMonths;?>"><?php echo $NumberOfMonthsErr;?>
+  Package Number of Months: <input type="number" name="NumberOfMonths" min="1" value="<?php echo $NumberOfMonths;?>"><?php //echo $NumberOfMonthsErr;?>
   <br><br>
   Package Information: 
   <br><br>
-  <textarea name="PackageInfo" rows="5" cols="40" ><?php  echo $PackageInfo;?></textarea><?php echo $PackageInfoErr;?>
+  <textarea name="PackageInfo" rows="5" cols="40" ><?php  echo $PackageInfo;?></textarea><?php //echo $PackageInfoErr;?>
   <br><br>
   <input type="submit" name="submit" value="Submit" >  
 </form>

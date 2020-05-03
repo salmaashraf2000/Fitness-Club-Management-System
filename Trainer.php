@@ -84,7 +84,7 @@ class Trainer extends Person implements Profile{
     public function GETMembersOfSession($sessionTime,$trainerID)
     {
         
-        $sessionStart= $this->CheckIfSessionBelongToTrainer($sessionTime,/*$trainerID*/22);
+        $sessionStart= $this->CheckIfSessionBelongToTrainer($sessionTime,$trainerID);
      
         $sessionEnd=$sessionStart+2;
         if($sessionStart==false)
@@ -92,7 +92,7 @@ class Trainer extends Person implements Profile{
             
             return 0;
         } 
-        $taken=$this->CheckIfAttendanceIsTaken($sessionStart,$sessionEnd,/*$trainerID*/22);
+        $taken=$this->CheckIfAttendanceIsTaken($sessionStart,$sessionEnd,$trainerID);
         if($taken==true)
         {
             
@@ -176,12 +176,6 @@ class Trainer extends Person implements Profile{
         $result= $this->selectJoin($table1,'', $fields,'',$table2,0,"u.ID=t.TrainerId AND u.ID='$ID'");
         return mysqli_fetch_assoc($result);
     }
-    /*//edit profile
-    public function EditProfile($ID,$password,$phoneNumber) 
-    {
-        $table='UsersInformation';
-        $data=array('PhoneNumber'=> $trainer->PhoneNumber,'Password'=>$trainer->Password);
-        $this->update($table, $data,"ID=$ID");
-    }*/
+  
     //SELECT u.ID,u.FirstName,u.LastName FROM EnrollementOfMember as e LEFT JOIN UsersInformation as u ON e.MemberID=u.ID AND e.StartDate<='2020-04-25' AND e.EndDate>='2020-04-25' AND e.TrainerID=28 AND e.SessionStartTime=16 AND e.SessionEndTime=18
 }

@@ -10,8 +10,8 @@ $valid=new Validation();
 $FirstName= $Email = $LastName  =$Age=$PackageNo=$PhoneNumber="";
 $msg="";
 $FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr =$ShiftErr= $packageNoErr="";
- 
-
+ $admin=new Admin();
+$packages=$admin->ViewPackages();  
   
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -28,14 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $AgeErr=$valid->Age($_POST['Age']);
     $genderErr=$valid->Gender($_POST["Gender"]);
     $ShiftErr=$valid->Number($_POST['Shift']);
-    $packageNoErr=$valid->Number($_POST['packageNo']);
+    $packageNoErr=$valid->Text($_POST['Packages']);
     
     $FirstName=$_POST['FirstName'];
     $LastName=$_POST['LastName'];
     $Email=$_POST['Email'];
     $Age=$_POST['Age'];
     $PhoneNumber=$_POST['PhoneNumber'];
-    $PackageNo=$_POST['packageNo'];
+    $PackageNo=$_POST['Packages'];
+    echo 'pack '.$_POST['Packages'];
    /* $_POST['FirstName']=test_input($_POST['FirstName']);
     $_POST['LastName']= test_input($_POST['LastName']);
     $_POST['Email']= test_input($_POST['Email']);
@@ -124,10 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $packageNoErr='*Package Number is required field';
   }*/
   
-   $admin=new Admin();
-  if($packageNoErr=="" && ($admin->CheckIfPackageExist($_POST['packageNo']))!==1){
+   
+  /*if($packageNoErr=="" && ($admin->CheckIfPackageExist($_POST['packageNo']))!==1){
       $packageNoErr='*Package Number does not exist';
-  }
+  }*/
   
   if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="" && $ShiftErr=="" && $packageNoErr=="")
   {
@@ -144,16 +145,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      
      if($_POST['Shift']==='morning')
      {
-         $startShift=8;
-         $endShift=14;
-
+         //$startShift=8;
+         //$endShift=14;
+         $trainer->setTimeStartingShift(8);
+         $trainer->setTimeEndingShift(14);
      } else 
      {
-         $startShift=14;
-         $endShift=22;
-         
+         //$startShift=14;
+         //$endShift=22;
+         $trainer->setTimeStartingShift(14);
+         $trainer->setTimeEndingShift(22);
      }
-     $admin->AddTrainer($trainer,$_POST['packageNo'],$startShift,$endShift);
+     $admin->AddTrainer($trainer,$_POST['Packages']/*,$startShift,$endShift*/);
        $msg='Trainer added Successfully';
   }else
   {
@@ -196,9 +199,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <input type="radio" name="Shift"  value="morning">Morning (8:00->14:00)
   <input type="radio" name="Shift" value="evening">Evening (14:00->20:00)   <?php echo $ShiftErr;?>
   <br><br>
-  Package Number: <input type="number" name="packageNo" min="1" value="<?php echo $PackageNo;?>"><?php echo $packageNoErr;?>
+  Package Number:
+                <select name="Packages">
+                <option value=""></option>
+                <?php foreach ($packages as $row){ ?>
+                
+                <option  value="<?php echo $row['PackageNumber'];?>" ><?php echo $row['PackageNumber']; ?></option>
+                <?php } ?>
+                
+            </select><?php echo $packageNoErr;?>
+  
   <br><br>
-  <input type="submit" name="submit" value="Submit" >  
+  <input type="submit" name="submit" value="Submit" >   
 </form>
         
     </body>

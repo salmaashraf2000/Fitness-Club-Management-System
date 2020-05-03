@@ -5,7 +5,7 @@ require_once  'Member.php';
 
 if($_SESSION['id']){
   $member=new Member();
-  echo $_SESSION['id'];
+  //echo $_SESSION['id'];
   $row=$member->ViewProfile($_SESSION['id']);
 } 
   if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -21,7 +21,7 @@ if($_SESSION['id']){
         <title></title>
     </head>
     <body>
-      <form method="post"></form>
+      <form method="post">
         <label for="name">Name : </label><?php echo $row['FirstName'].' '.$row['LastName']; ?>
         <br><br>
         <label for="Email">Email : </label><?php echo $row['Email']; ?>

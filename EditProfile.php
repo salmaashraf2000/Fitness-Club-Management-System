@@ -36,17 +36,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      {
          $admin=new Admin();
          $admin->EditProfile($_POST['PhoneNumber'],$Password);
+         
      }else if($_SESSION['UserType']=='member')
      {
          $member=new Member();
          $member->EditProfile($_POST['PhoneNumber'],$Password);
+         
      } else if($_SESSION['UserType']=='trainer')
      {
          $trainer=new Trainer();
          $trainer->EditProfile($_POST['PhoneNumber'],$Password);
+        
      }
      
-    $msg='Information updated successfully';
+     if($_SESSION['UserType']=='admin')
+     {
+          
+         header("Location:ViewProfileAdmin.php");
+     }else if($_SESSION['UserType']=='member')
+     {
+         
+         header("Location:ViewProfileMember.php");
+     } else if($_SESSION['UserType']=='trainer')
+     {
+         
+         header("Location:ViewProfileTrainer.php");
+     }
+     
+    //$msg='Information updated successfully';
+    
   
   }else
   {
@@ -56,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   
  
   echo "<script type='text/javascript'>alert('$msg');</script>";
+ 
+   
+   
   
 }
 ?>

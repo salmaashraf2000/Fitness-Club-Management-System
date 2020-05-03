@@ -4,9 +4,9 @@ require 'Trainer.php';
 
 $l= $_SESSION['time'];
 echo $l;
-
+$TrainerId=$_SESSION['id'];
  $trainer= new Trainer();
-    $membersNames=$trainer->GETMembersOfSession($_SESSION['time'],/*$TrainerId*/22);
+    $membersNames=$trainer->GETMembersOfSession($_SESSION['time'],$TrainerId);
 if($membersNames==-1)
 {  
     echo 'Attendance already taken'; 
@@ -29,7 +29,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     $checkedMembers[$selected]=1;
                 }
             
-                $trainer->TakeMembersAttendance($membersNames,$checkedMembers,/*$TrainerId*/22);
+                $trainer->TakeMembersAttendance($membersNames,$checkedMembers,$TrainerId);
             }
              else{
                 echo 'No Results to show';
