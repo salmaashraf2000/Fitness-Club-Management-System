@@ -1,11 +1,14 @@
 <?php
 require 'config.php';
 trait mysql{
-            protected $_config =array();
+            /*protected $_config =array();
             protected $_link;
-            protected $_result;
+            protected $_result;*/
+            private static $_config =array();
+            private static $_link;
+            private static $_result;
             
-            public function __construct(array $config) 
+            /*public function __construct(array $config) 
             {
                 if(count($config)!==4)
                 {
@@ -13,24 +16,34 @@ trait mysql{
                 }
                  $this->_config=$config;
                  echo 'hello';
+            }*/
+            private function __construct(array $config) 
+            {
+                if(count($config)!==4)
+                {
+                    throw new InvalidArgumentException('Invalid number of connection parameter');
+                }
+                 //$this->_config=$config;
+                self::$_config=$config;
+                 echo 'hello';
             }
             
-            //connect to mysql
-            public function connect()
+            //connect to mysql  //it was public only
+            public static function connect()
             {
                 global $config;
-                $this->_config=$config;
-                if($this->_link===null)
+                self::$_config=$config;
+                if(self::$_link===null)
                 {
-                    list($host,$user,$password,$database)= $this->_config;
-                    if(!$this->_link=@mysqli_connect($host,$user,$password,$database))
+                    list($host,$user,$password,$database)= self::$_config;
+                    if(!self::$_link=@mysqli_connect($host,$user,$password,$database))
                     {
                         throw new RuntimeException('error connecting to server'. mysqli_connect_error());
                     }
                     //remove values
                     unset($host,$user,$password,$database);
                 }
-                return $this->_link;
+                return self::$_link;
             }
             
             public function query($query)
@@ -40,13 +53,13 @@ trait mysql{
                     throw new InvalidArgumentException('query mot valid');
                 }
                 $this->connect();
-                if(!$this->_result= mysqli_query($this->_link,$query))
+                if(!self::$_result= mysqli_query(self::$_link,$query))
                 {
                    // return false;
-                    throw new RuntimeException('error executing query'.$query.mysqli_error($this->_link));
+                    throw new RuntimeException('error executing query'.$query.mysqli_error(self::$_link));
                  
                 }
-                return $this->_result;
+                return self::$_result;
             }
             
             public function select($table,$where='',$fields='*',$order='')
@@ -57,11 +70,12 @@ trait mysql{
                 return $this->query($query);
             }
             
-             public function selectJoin($table1,$where='',$fields='*',$order='',$table2,$left1=0,$on1='',$table3='',$left2=0,$on2='',$table4='',$left3=0,$on3='')
+             public function selectJoin($table1,$where='',$fields='*',$order='',$table2,$left1=0,$on1='',$table3='',$left2=0,$on2='',$table4='',$left3=0,$on3='',$table5='',$left4=0,$on4='')
             {
                 $query='SELECT '.$fields.' FROM '.$table1.(($left1)?' LEFT':'' ).' JOIN '.$table2.' ON '.$on1
                         .(($left2)?' LEFT':'' ).(($table3)? ' JOIN '.$table3.' ON '.$on2: '')
                         .(($left3)?' LEFT':'' ).(($table4)? ' JOIN '.$table4.' ON '.$on3: '')
+                        .(($left4)?' LEFT':'' ).(($table5)? ' JOIN '.$table5.' ON '.$on4: '')
                         .(($where)? ' WHERE '.$where :'')
                         .(($order)? ' ORDER BY '.$order:'');
                 return $this->query($query);
@@ -107,7 +121,7 @@ trait mysql{
                     $value='NULL';
                 } else if(!is_numeric($value))
                 {
-                    $value="'".mysqli_real_escape_string($this->_link, $value)."'";
+                    $value="'".mysqli_real_escape_string(self::$_link, $value)."'";
                 }
                 return $value;
             }
@@ -115,41 +129,41 @@ trait mysql{
             //get inserted id
             public function getInsertedId()
             {
-                return $this->_link!==null ? mysqli_insert_id($this->_link): null;
+                return self::$_link!==null ? mysqli_insert_id(self::$_link): null;
             }
             
             //count number of rows returned from current result set
             public function countRows()
             {
-                return $this->_result!==null ? mysqli_num_rows($this->_result) : 0;
+                return self::$_result!==null ? mysqli_num_rows(self::$_result) : 0;
             }
             
             //get number of affected rows
             public function AffectedRows()
             {
-                return $this->_link!==null ? mysqli_affected_rows($this->_link):0;
+                return self::$_link!==null ? mysqli_affected_rows(self::$_link):0;
             }
             
             //free current result set
             public function FreeResult() 
             {
-                if($this->_result===null)
+                if(self::$_result===null)
                 {
                     return false;
                 }
-                mysqli_free_result($this->_result);
+                mysqli_free_result(self::$_result);
                 return true;
             }
             
             //close database connection
             public function disconnect() 
             {
-                if($this->_link===null)
+                if(/*$this->_link===null*/self::$_link===null)
                 {
                     return;
                 }
-                 mysqli_close($this->_link);
-                $this->_link=null;
+                 mysqli_close(self::$_link);
+                self::$_link=null;
                 return true;
             }
             

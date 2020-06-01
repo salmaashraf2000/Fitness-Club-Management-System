@@ -8,7 +8,6 @@ require_once  'Person.php';
 $valid=new Validation();
 $person=new Person();
   
-echo 'lo'.$_SESSION['FirstLogin'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -45,21 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         echo '*Wrong Email or password';
     }
-   /* if (! isset($_POST['Email'])) 
-  {
-
-    $emailErr='*Email is required';
-  } else if(!filter_input(INPUT_POST,'Email',FILTER_VALIDATE_EMAIL))
-  {
-      $Email=$_POST['Email'];
-      $emailErr='*Email not valid';
-  }
-    
-  if (! (isset($_POST['Password']))) 
-  {
-    
-    $passwordErr='*Password must be 8 charecters or more';
-  }*/
+   
 }
    
 ?>

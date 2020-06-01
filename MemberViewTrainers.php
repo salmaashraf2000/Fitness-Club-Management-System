@@ -1,17 +1,11 @@
 <?php
 
-require 'Admin.php';
+require 'Member.php';
 
 //session_start();
-$admin= new Admin();
-$trainers=$admin->ViewTrainers();
+$member= new Member();
+$trainers=$member->ViewTrainers();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-        $trainers=$admin->SearchTrainer($_POST['search']);
-    
-}
 ?>
 
 
@@ -22,11 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     </head>
     <body>
         <h1>List Trainers</h1>
-        <form method="post">
-            
-            <input type="text" name="search" placeholder="Enter Name or Email to search"/>
-            <input type="submit" value="Search"/>
-        </form>
+       
         <table cellpadding="8">
             <thread>
                 <tr>
@@ -52,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <td><?= $row['TimeStartingShift']?></td>
                     <td><?= $row['TimeEndingShift']?></td>
                     <td> <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?> </td>
-                    <td><a href="AdminEditTrainer.php?id=<?= $row['id']?>&packageNo=<?= $row['packageNo']?>&TimeStartingShift=<?= $row['TimeStartingShift']?>&TimeEndingShift=<?= $row['TimeEndingShift']?>">Edit</a> | <a href="Delete.php?id=<?= $row['id']?>">Delete<a/></td>
+
+                    
                 </tr>    
             <?php } ?>     
         </table>

@@ -11,8 +11,8 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        require 'Admin.php';
-        require 'config.php';
+        
+        
         //require 'person.php';
         // put your code here
         /*$servername="localhost";

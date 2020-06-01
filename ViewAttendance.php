@@ -12,15 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   
     $trainerErr=$valid->Text($_POST['getTrainers']);
     $timeErr=$valid->Text($_POST['time']);
-    /*if( $_POST['getTrainers']=="")
-    {
-        $Err='*All fields must be selected';
-    }
-        
-    if( $_POST['time']=="")
-    {
-        $Err='*All fields must be selected';    
-    }*/
     
    
     
@@ -33,16 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
        $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$date);
 
     }
-    /*<script>
-function DisplayTable() 
-{
-      document.getElementById("viewAttendance").style.visibility = "block";
-      
-      return false;
-    
-}
-</script>*/
-    
+  
 }    
 
 ?>
@@ -74,7 +56,7 @@ function DisplayTable()
                 <option value="14-16">14:00 to 16:00</option>
                 <option value="16-18">16:00 to 18:00</option>
                 <option value="18-20">18:00 to 20:00</option>
-                <option value="20-22">20:00 to 20:00</option>
+                <option value="20-22">20:00 to 22:00</option>
                 
             </select><?php echo $timeErr;?>
             <br><br>

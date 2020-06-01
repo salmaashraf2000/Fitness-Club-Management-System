@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <th>Last Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
-               
+                    <th>Profile Picture</th>
                     
                 </tr>
             </thread>   
@@ -42,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <td><?= $row['LastName']?></td>
                     <td><?= '0'.$row['PhoneNumber']?></td>
                     <td><?= $row['Email']?></td>
-                    
+                    <td> <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?> </td>
+        
                     <td><a href="Delete.php?id=<?= $row['id']?>">Delete<a/></td>
                 </tr>    
             <?php } ?>     

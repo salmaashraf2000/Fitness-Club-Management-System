@@ -10,7 +10,7 @@ if($_SESSION['id']){
 } 
  if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  
+    
     if(isset($_POST['submit']))
     {
     
@@ -25,14 +25,17 @@ if($_SESSION['id']){
         <title></title>
     </head>
     <body>
-     <form method="post">
+        <form method="post" >
+          <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?> 
+        <br><br>    
+        <label for="Profile_Picture">Profile Picture</label> 
         <label for="name">Name : </label><?php echo $row['FirstName'].' '.$row['LastName']; ?>
         <br><br>
         <label for="Email">Email : </label><?php echo $row['Email']; ?>
         <br><br>
         <label for="PhoneNumber">Phone Number :   </label><?php echo '0'.$row['PhoneNumber']; ?>
         <br><br>
-      
+       
        <input type="submit" name="submit" value="Edit Profile">  
      </form>
         

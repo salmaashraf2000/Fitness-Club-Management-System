@@ -21,6 +21,9 @@ if($_SESSION['id']){
     </head>
     <body>
       <form method="post" > 
+          <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?> 
+        <br><br>    
+        <label for="Profile_Picture">Profile Picture</label>   
         <label for="name">Name : </label><?php echo $row['FirstName'].' '.$row['LastName']; ?>
         <br><br>
         <label for="Email">Email : </label><?php echo $row['Email']; ?>
@@ -31,7 +34,7 @@ if($_SESSION['id']){
         <br><br>
         <label for="SessionTime">Session Time :   </label><?php echo 'From '.$row['TimeStartingShift'].':00 To '.$row['TimeEndingShift'].':00'; ?> 
         <br><br>
-      
+        
        <input type="submit" name="submit" value="Edit Profile">  
      </form>
         

@@ -5,13 +5,16 @@ require_once  'Member.php';
 
 if($_SESSION['id']){
   $member=new Member();
-  //echo $_SESSION['id'];
+  
   $row=$member->ViewProfile($_SESSION['id']);
 } 
   if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
+{     
+     
+      if(isset($_POST['submit']))
+    {
       header("Location:EditProfile.php");
-      
+    }
 }
 
 ?>
@@ -21,7 +24,11 @@ if($_SESSION['id']){
         <title></title>
     </head>
     <body>
-      <form method="post">
+      <form method="post" >
+           <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?> 
+        <br><br>    
+        <label for="Profile_Picture">Profile Picture</label> 
+        <br><br>
         <label for="name">Name : </label><?php echo $row['FirstName'].' '.$row['LastName']; ?>
         <br><br>
         <label for="Email">Email : </label><?php echo $row['Email']; ?>
@@ -38,7 +45,7 @@ if($_SESSION['id']){
         <br><br>
         <label for="TrainerName">Trainer Name :  </label><?php echo $row['firstname'].' '.$row['lastname']; ?>
         <br><br>
-      
+        
        <input type="submit" name="submit" value="Edit Profile">  
       </form>
         

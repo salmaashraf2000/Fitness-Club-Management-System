@@ -10,6 +10,9 @@ $TrainerId=$_SESSION['id'];
 if($membersNames==-1)
 {  
     echo 'Attendance already taken'; 
+}else if($membersNames==0)
+{
+    echo 'you are not allowed to take attendance of this session'; 
 }    
 else if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {

@@ -40,52 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $Price=$_POST['Price'];
     $Discount=$_POST['Discount'];   
             
-  /*if (! (isset($_POST['PackageInfo']) && !empty($_POST["PackageInfo"]))) 
-  {
-    
-    $PackageInfoErr='*This field is required';
-  } 
-   if (! (isset($_POST['JacuzziNo']) && !empty($_POST['JacuzziNo'])) && $_POST['JacuzziNo']!=='0')
-   {
-   
-    $JacuzziNoErr='*This field is required';
-  } 
-  
-  if (! (isset($_POST['SpaNo']) && !empty($_POST['SpaNo'])) && $_POST['SpaNo']!=='0') 
-  {
-
-    $SpaNoErr='*This field is required';
-  } 
-    
-  if (! (isset($_POST['SteamNo']) && !empty($_POST['SteamNo'])) && $_POST['SteamNo']!=='0') 
-  {
-    
-    $SteamNoErr='*This field is required';
-  }
-  
-   if (! (isset($_POST['SaunaNo']) && !empty($_POST['SaunaNo'])) && $_POST['SaunaNo']!=='0') 
-  {
-    
-    $SaunaNoErr='*This field is required';
-  }
-  
-   if (! (isset($_POST['NumberOfMonths']) && !empty($_POST['NumberOfMonths']))) 
-  {
-    
-    $NumberOfMonthsErr='*This field is required';
-  }
-  
-  if (! (isset($_POST['Price']) && !empty($_POST['Price']))) 
-  {
-    
-    $PriceErr='*This field is required';
-  }
-  
-  if (! (isset($_POST['Discount']) && !empty($_POST['Discount'])) && $_POST['Discount']!=='0') 
-  {
-   
-    $DiscountErr='*This field is required';
-  }*/
   
   
   
@@ -139,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <br><br>
   Package Number of Months: <input type="number" name="NumberOfMonths" min="1" value="<?php echo $NumberOfMonths;?>"><?php echo $NumberOfMonthsErr;?>
   <br><br>
-  Package Information: 
+  Package Description: 
   <br><br>
   <textarea name="PackageInfo" rows="5" cols="40" ><?php  echo $PackageInfo;?></textarea><?php echo $PackageInfoErr;?>
   <br><br>

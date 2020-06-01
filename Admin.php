@@ -1,6 +1,5 @@
 <?php
-//require 'mysql.php';
-//require 'config.php';
+
 require_once 'person.php';
 require_once 'Package.php';
 require_once 'Member.php';
@@ -8,24 +7,20 @@ require_once  'Trainer.php';
 require_once 'Profile.php';
 class Admin extends Person implements Profile{
     
-    /*use mysql
-    {
-        mysql::__construct as private __mysqlconstruct1;
-    }*/
+    
     public function __construct()
     {
-        //global $config;
-        //call trait constructor
-       // parent::__construct($config);
-       //$this->__mysqlconstruct1($config);
+       
     }
    
     //add member
     public function AddMember(Member $member)
     {
+        $this->SendEmail($member->Email, $member->Password);
+        $member->Password= password_hash($member->Password, PASSWORD_DEFAULT);
         $result= $this->select("UsersType","UserType='member'",'userTypeNumber',''); 
         $row= mysqli_fetch_assoc($result);
-        $fields=array('FirstName'=>$member->FirstName,'LastName'=>$member->LastName,'PhoneNumber'=>$member->Password,'Email'=>$member->Email,'Password'=>$member->Password,'Age'=>$member->Age,'Gender'=>$member->Gender,'UserTypeNumber'=>$row['userTypeNumber'],'FirstLogin'=>0);
+        $fields=array('FirstName'=>$member->FirstName,'LastName'=>$member->LastName,'PhoneNumber'=>$member->PhoneNumber,'Email'=>$member->Email,'Password'=>$member->Password,'Age'=>$member->Age,'Gender'=>$member->Gender,'UserTypeNumber'=>$row['userTypeNumber'],'FirstLogin'=>0);
         $table='UsersInformation';
         $this->insert($table, $fields);
         
@@ -33,18 +28,21 @@ class Admin extends Person implements Profile{
     //add admin
     public function AddAdmin(Admin $admin)
     {
+        $this->SendEmail($admin->Email, $admin->Password);
+        $admin->Password=password_hash($admin->Password, PASSWORD_DEFAULT);
         $result= $this->select("UsersType","UserType='admin'",'userTypeNumber',''); 
         $row= mysqli_fetch_assoc($result);
-        $fields=array('FirstName'=>$admin->FirstName,'LastName'=>$admin->LastName,'PhoneNumber'=>$admin->Password,'Email'=>$admin->Email,'Password'=>$admin->Password,'Age'=>$admin->Age,'Gender'=>$admin->Gender,'UserTypeNumber'=>$row['userTypeNumber'],'FirstLogin'=>0);
+        $fields=array('FirstName'=>$admin->FirstName,'LastName'=>$admin->LastName,'PhoneNumber'=>$admin->PhoneNumber,'Email'=>$admin->Email,'Password'=>$admin->Password,'Age'=>$admin->Age,'Gender'=>$admin->Gender,'UserTypeNumber'=>$row['userTypeNumber'],'FirstLogin'=>0);
         $table='UsersInformation';
         $this->insert($table, $fields);
         
     }
     
     //add trainer
-    public function AddTrainer(Trainer $trainer,$packageNo/*,$startShift,$endShift*/)
+    public function AddTrainer(Trainer $trainer,$packageNo)
     {
-            
+        $this->SendEmail($trainer->Email, $trainer->Password);
+        $trainer->Password=password_hash($trainer->Password, PASSWORD_DEFAULT);    
         $result= $this->select("UsersType","UserType='trainer'",'userTypeNumber',''); 
         $row= mysqli_fetch_assoc($result);
         $fields=array('FirstName'=>$trainer->FirstName,'LastName'=>$trainer->LastName,'PhoneNumber'=>$trainer->PhoneNumber,'Email'=>$trainer->Email,'Password'=>$trainer->Password,'Age'=>$trainer->Age,'Gender'=>$trainer->Gender,'UserTypeNumber'=>$row['userTypeNumber'],'FirstLogin'=>0);
@@ -75,20 +73,15 @@ class Admin extends Person implements Profile{
 
         $result= $this->select("UsersType","UserType='member'",'userTypeNumber',''); 
         $row= mysqli_fetch_assoc($result);
-        $fields='m.ID as id,m.FirstName,m.LastName,m.PhoneNumber,m.Email,e.SessionStartTime,e.SessionEndTime,e.StartDate,e.EndDate,t.packageNo,tr.FirstName as firstname,tr.LastName as lastname,tr.ID as trainerID';
+        $fields='m.ID as id,m.FirstName,m.LastName,m.PhoneNumber,m.Email,e.SessionStartTime,e.SessionEndTime,e.StartDate,e.EndDate,t.packageNo,tr.FirstName as firstname,tr.LastName as lastname,tr.ID as trainerID,p.ProfilePicture as ProfilePicture';
         $date= date("Y-m-d");
         $usertype=$row['userTypeNumber'];
-       // $result= $this->selectJoin("UsersInformation as m","m.UserTypeNumber='"+$row['userTypeNumber']+"'",$fields,"","EnrollementOfMember as e","m.ID=e.MemberID  AND $date<=e.EndDate","TrainersShiftInfo as t","t.TrainerId=e.TrainerID"); 
-        $result= $this->selectJoin("UsersInformation as m","m.UserTypeNumber=$usertype",$fields,"","EnrollementOfMember as e",1,"m.ID=e.MemberID AND  '$date'>=e.StartDate AND '$date'<=e.EndDate","TrainersShiftInfo as t",1,"t.TrainerId=e.TrainerID","UsersInformation as tr",1,"tr.ID=e.TrainerID"); 
+        $result= $this->selectJoin("UsersInformation as m","m.UserTypeNumber=$usertype",$fields,"","EnrollementOfMember as e",1,"m.ID=e.MemberID AND  '$date'>=e.StartDate AND '$date'<=e.EndDate","TrainersShiftInfo as t",1,"t.TrainerId=e.TrainerID","UsersInformation as tr",1,"tr.ID=e.TrainerID","ProfilePictures as p",1,"m.id=p.UserID"); 
 
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
-   /* public function CheckIfPackageExist($packageNo)
-    {
-        $this->select('Packages',"PackageNumber='$packageNo'",'*','');
-        return $this->countRows();
-    }*/
+   
     
     //delete user
     public function DeleteUser($ID)
@@ -100,12 +93,12 @@ class Admin extends Person implements Profile{
     //view all trainers
     public function ViewTrainers()
     {
-        //$trainer=new Trainer();
+        
         $result= $this->select("UsersType","UserType='trainer'",'userTypeNumber',''); 
         $row= mysqli_fetch_assoc($result);
-        $fields='t.ID as id,t.FirstName,t.LastName,t.PhoneNumber,t.Email,s.TimeStartingShift,s.TimeEndingShift,s.packageNo';
+        $fields='t.ID as id,t.FirstName,t.LastName,t.PhoneNumber,t.Email,s.TimeStartingShift,s.TimeEndingShift,s.packageNo,p.ProfilePicture as ProfilePicture';
         $usertype=$row['userTypeNumber'];
-        $result= $this->selectJoin("UsersInformation as t","t.UserTypeNumber=$usertype",$fields,"","TrainersShiftInfo as s",0,"t.ID=s.TrainerId"); 
+        $result= $this->selectJoin("UsersInformation as t","t.UserTypeNumber=$usertype",$fields,"","TrainersShiftInfo as s",0,"t.ID=s.TrainerId","ProfilePictures as p",1,"t.id=p.UserID"); 
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
@@ -115,9 +108,9 @@ class Admin extends Person implements Profile{
         
         $result= $this->select("UsersType","UserType='admin'",'userTypeNumber',''); 
         $row= mysqli_fetch_assoc($result);
-        $fields='ID as id,FirstName,LastName,PhoneNumber,Email';
+        $fields='a.ID as id,a.FirstName as FirstName,a.LastName as LastName,a.PhoneNumber as PhoneNumber,a.Email as Email,p.ProfilePicture as ProfilePicture';
         $usertype=$row['userTypeNumber'];
-        $result= $this->select("UsersInformation","UserTypeNumber=$usertype",$fields); 
+        $result= $this->selectJoin("UsersInformation as a","UserTypeNumber=$usertype",$fields,"","ProfilePictures as p",1,"a.ID=p.UserID"); 
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
@@ -170,7 +163,7 @@ class Admin extends Person implements Profile{
         $table2='UsersInformation as u';
         $fields='u.FirstName,u.LastName,a.Attendance';
         $result= $this->selectJoin($table1,"a.Date='$date' AND a.sessionStartTime=$sessionStart AND a.sessionEndTime=$sessionEnd AND a.TrainerId=$trainerID",$fields,'',$table2,0,'u.ID=a.MemberId');
-        //echo $this->countRows();
+        
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
@@ -178,9 +171,10 @@ class Admin extends Person implements Profile{
     //view profile of admin
     public function ViewProfile($ID)
     {
-        $table='UsersInformation';
-        $fields='FirstName,LastName,PhoneNumber,Email';
-        $result= $this->select($table, "ID='$ID'", $fields);
+        $table1='UsersInformation as u';
+        $table2='ProfilePictures as p';
+        $fields='u.FirstName,u.LastName,u.PhoneNumber,u.Email,p.ProfilePicture';
+        $result= selectJoin($table1,'',$fields,'',$table2,$left1=1,$on1="u.ID=p.UserID AND u.ID=$ID");
         return mysqli_fetch_assoc($result);
     }
     
@@ -192,14 +186,7 @@ class Admin extends Person implements Profile{
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
     
-   /* //get trainer's shift and package working in
-    public function GetTrainerInfo($ID)
-    {
-        $table='TrainersShiftInfo';
-        $fields='packageNo,TimeStartingShift,TimeEndingShift';
-        $result= $this->select($table,"TrainerId='$ID'",$fields,'');
-        return mysqli_fetch_assoc($result);
-    }*/
+   
      
     //check if any member is training with specific trainer
     public function CheckIfAnyMemberEnrollWithTrainer($ID)
@@ -235,14 +222,7 @@ class Admin extends Person implements Profile{
         $this->update($table, $data, "TrainerId='$id'");
     }
 
-   /* //get current package member enrolling in
-     public function GetMemberInfo($ID)
-    {///////////////////////////////////////////////////////////////
-        $table='EnrollementOfMember';
-        $fields='packageNo,TimeStartingShift,TimeEndingShift';
-        $result= $this->select($table,"MemberID='$ID'",$fields,'');
-        return mysqli_fetch_assoc($result);
-    }*/
+  
     //delete package
     public function DeletePackage($PackageNumber)
     {
@@ -262,13 +242,6 @@ class Admin extends Person implements Profile{
         return mysqli_fetch_assoc($result);
     }
     
-    //get information of a package
-    /*public function GetPackageInfo($PackageNumber)
-    {
-        $table='Packages';
-        $result= $this->select($table, "PackageNumber=$PackageNumber");
-        return mysqli_fetch_assoc($result);
-    }*/
     
     //edit information of a package
     public function EditPackage($package,$PackageNumber)
@@ -335,7 +308,7 @@ class Admin extends Person implements Profile{
                 {
                     
                     $Sessions[]=array($name,$trainer['TrainerId'],$Time,$Time+2);
-                    //echo $trainer['TrainerId']." ".$Time."<br>";
+                    
                 }
                 
             }
@@ -351,6 +324,14 @@ class Admin extends Person implements Profile{
         $data=array('TrainerID'=>$arr[0],'SessionStartTime'=>$arr[1],'SessionEndTime'=>$arr[1]+2);
         $this->update($table, $data, "MemberID=$ID");
     }
-    //selectJoin($table1,$where='',$fields='*',$order='',$table2,$left1=0,$on1='',$table3='',$left2=0,$on2='',$table4='',$left3=0,$on3='')
-}/*SELECT u.FirstName,u.LastName,a.Attendance FROM MembersAttendance as a LEFT JOIN UsersInformation as u ON u.ID=a.MemberId WHERE a.Date='2020-04-23' AND a.sessionStartTime=4 AND a.sessionEndTime=6 AND a.TrainerId=28*/
+    
+    //send email with credentials
+    public function SendEmail($email,$pass)
+    {
+      
+        $message="Hello, welcome to our site you can login using these credentails, Email:.$email. Password:.$pass. then you will need to change the password";
+        $message= wordwrap($message,70);
+        mail($email,"Login Credentials",$message);
+    }
+}
 ?>

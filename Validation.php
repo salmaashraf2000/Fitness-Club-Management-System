@@ -12,8 +12,7 @@ class Validation {
     public function __construct()
     {
         global $config;
-        //call trait constructor
-       // parent::__construct($config);
+        
        $this->__mysqlconstruct($config);
     }
     

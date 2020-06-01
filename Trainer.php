@@ -1,4 +1,4 @@
-<?php
+[<?php
 require_once 'Person.php';
 require_once 'Profile.php';
 class Trainer extends Person implements Profile{
@@ -22,16 +22,7 @@ class Trainer extends Person implements Profile{
         $this->TimeEndingShift = $TimeEndingShift;
     }
 
-       /* use mysql
-    {
-        mysql::__construct as private __mysqlconstruct;
-    }
-    public function __construct()
-    {
-       // global $config;
-       //$this->__mysqlconstruct($config);
-    }*/
-    
+   
     //check if the session time belong to this trainer
     public function CheckIfSessionBelongToTrainer($sessionTime,$trainerID)
     {
@@ -172,10 +163,10 @@ class Trainer extends Person implements Profile{
     {
         $table1='UsersInformation as u';
         $table2='TrainersShiftInfo as t';
-        $fields='u.FirstName,u.LastName,u.PhoneNumber,u.Email,t.TimeStartingShift,t.TimeEndingShift,t.packageNo';
-        $result= $this->selectJoin($table1,'', $fields,'',$table2,0,"u.ID=t.TrainerId AND u.ID='$ID'");
+        $table3='ProfilePictures as p';
+        $fields='u.FirstName,u.LastName,u.PhoneNumber,u.Email,t.TimeStartingShift,t.TimeEndingShift,t.packageNo,p.ProfilePicture';
+        $result= $this->selectJoin($table1,'', $fields,'',$table2,0,"u.ID=t.TrainerId AND u.ID='$ID'",$table3,1,"u.ID=p.UserID");
         return mysqli_fetch_assoc($result);
     }
   
-    //SELECT u.ID,u.FirstName,u.LastName FROM EnrollementOfMember as e LEFT JOIN UsersInformation as u ON e.MemberID=u.ID AND e.StartDate<='2020-04-25' AND e.EndDate>='2020-04-25' AND e.TrainerID=28 AND e.SessionStartTime=16 AND e.SessionEndTime=18
 }

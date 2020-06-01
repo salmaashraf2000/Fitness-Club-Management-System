@@ -13,7 +13,7 @@ $TimeStartingShift=filter_input(INPUT_GET,'TimeStartingShift',FILTER_SANITIZE_NU
 $TimeEndingShift=filter_input(INPUT_GET,'TimeEndingShift',FILTER_SANITIZE_NUMBER_INT);
 $admin=new Admin();
 $valid=new Validation();
-//$trainer=$admin->GetTrainerInfo($ID);
+
 $packages=$admin->ViewPackages();  
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')

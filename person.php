@@ -74,8 +74,7 @@ class Person{
     public function __construct()
     {
         global $config;
-        //call trait constructor
-       // parent::__construct($config);
+        
        $this->__mysqlconstruct($config);
     }
     //login
@@ -123,7 +122,7 @@ class Person{
     {
         $table='UsersInformation';
         $id=$_SESSION['id'];
-        $hashedPassword= password_hash($password, PASSWORD_DEFAULT);
+        $hashedPassword= password_hash($Password, PASSWORD_DEFAULT);
         $data= array('Password'=>$hashedPassword,'PhoneNumber'=>$PhoneNumber);
         $this->update($table, $data, "ID='$id'");
     }
@@ -137,7 +136,40 @@ class Person{
         $result= $this->select($table,"ID='$id'",$fields);
         return mysqli_fetch_assoc($result);     
     }
-
+   
+    //set new profile picture
+    public function ProfilePicture($documentRoot)
+    {
+        $upload_directory=$documentRoot.'/ProfilePicture';
+        $ProfilePicture='';
+        $id=$_SESSION['id'];
+        if($_FILES["ProfilePicture"]['error']==UPLOAD_ERR_OK)
+        {
+            echo 'i am here ';
+            $tmpName=$_FILES['ProfilePicture']['tmp_name'];
+            //to ignore any special charecters and get the base name only
+            $ProfilePicture= basename($_FILES['ProfilePicture']['name']);
+           //move file from temp directory to another place
+            $ProfilePicture=$id.$ProfilePicture;
+            move_uploaded_file($tmpName, "$upload_directory/$ProfilePicture");    
+            echo 'prof '.$ProfilePicture;
+           
+            $result= $this->select('ProfilePictures',"UserID='$id'");
+            if($this->countRows()==1){
+                $data= array('ProfilePicture'=>$ProfilePicture);
+                $this->update('ProfilePictures', $data, "UserID='$id'");
+            } else {
+                
+                $fields=array('UserID'=>$id,'ProfilePicture'=>$ProfilePicture);
+                $table='ProfilePictures';
+                $this->insert($table, $fields);
+            }
+            
+        } else 
+        {
+            echo 'File can not be uploaded';
+        }
+    }
     //log out
     public function Logout()
     {

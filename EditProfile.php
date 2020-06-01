@@ -25,28 +25,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     
     
     
-    $Email=$_POST['Email'];
+    $Password=$_POST['Password'];
     
     $PhoneNumber=$_POST['PhoneNumber'];
  
   if( $passwordErr=="" && $PhoneErr=="")
   {
-     $password= password_hash($_POST['Password'], PASSWORD_DEFAULT);
+     
      if($_SESSION['UserType']=='admin')
      {
          $admin=new Admin();
          $admin->EditProfile($_POST['PhoneNumber'],$Password);
-         
+         $admin->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
      }else if($_SESSION['UserType']=='member')
      {
          $member=new Member();
          $member->EditProfile($_POST['PhoneNumber'],$Password);
-         
+         $member->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
      } else if($_SESSION['UserType']=='trainer')
      {
          $trainer=new Trainer();
          $trainer->EditProfile($_POST['PhoneNumber'],$Password);
-        
+         $trainer->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
      }
      
      if($_SESSION['UserType']=='admin')
@@ -86,12 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <title></title>
     </head>
     <body>
-     <form method="post" action=""> 
+     <form method="post" enctype="multipart/form-data"> 
   Password: <input type="password" name="Password"  ><?php echo $passwordErr;?>
   <br><br>
   Phone Number: <input type="tel" id="PhoneNumber" name="PhoneNumber" pattern="[0]{1}[1]{1}[0-9]{9}" value="<?php echo '0'.$row['PhoneNumber'];?>"><?php echo $PhoneErr;?>
   <br><br>
- 
+  <label for="profilepicture">Profile Picture</label>
+  <input type="file" name="ProfilePicture"/>
+  <br><br>
   <input type="submit" name="submit" value="Submit">  
 </form>
         

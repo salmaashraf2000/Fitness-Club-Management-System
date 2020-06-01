@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Trainer Name</th>
-                    
+                    <th>Profile Picture</th>
                     
                 </tr>
             </thread>   
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <td><?= $row['StartDate']?></td>
                     <td><?= $row['EndDate']?></td>
                     <td><?= $row['firstname'].' '.$row['lastname']?></td>
-                    
+                    <td> <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?>  </td>
                     <td><a href="AdminEditMember.php?id=<?= $row['id']?>&packageNo=<?= $row['packageNo']?>&trainerID=<?= $row['trainerID']?>&SessionStartTime=<?= $row['SessionStartTime']?>&SessionEndTime=<?= $row['SessionEndTime']?>">Edit</a> | <a href="Delete.php?id=<?= $row['id']?>">Delete<a/></td>
                 </tr>    
             <?php } ?>     
