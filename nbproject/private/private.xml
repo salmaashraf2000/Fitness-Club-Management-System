@@ -11,6 +11,7 @@
             <file>file:/C:/xampp/htdocs/PhpProject/Trainer.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewProfileTrainer.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewMembersToTakeAttendance.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/MemberViewTrainers.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewPackages.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Delete.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/mysql.php</file>
@@ -26,9 +27,12 @@
             <file>file:/C:/xampp/htdocs/PhpProject/AddAdmin.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Profile.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/EditProfile.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/Feedback.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Member.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Package.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/Payment.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/person.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/MemberViewPackages.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/config.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Login.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewProfileMember.php</file>

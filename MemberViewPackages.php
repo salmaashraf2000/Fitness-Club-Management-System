@@ -25,7 +25,7 @@ $packages=$member->ViewPackages();
                     <th>Number Of Months</th>
                     <th>Price</th>
                     <th>Discount</th>
-                    <th>Email</th>
+                    
  
  
                 </tr>
@@ -41,7 +41,7 @@ $packages=$member->ViewPackages();
                     <td><?= $row['NumberOfMonths']?></td>
                     <td><?= $row['Price']?></td>
                     <td><?= $row['Discount']?></td>
- 
+                    <td><a href="AvailableSessions.php?id=<?= $row['id']?>&packageNo=<?= $row['packageNo']?>&trainerID=<?= $row['trainerID']?>&SessionStartTime=<?= $row['SessionStartTime']?>&SessionEndTime=<?= $row['SessionEndTime']?>">Edit</a> 
  
  
                 </tr>    

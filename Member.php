@@ -58,4 +58,19 @@ class Member extends Person implements Profile{
     {
         
     }
+    
+    //delegation pattern 
+    //get all available sessions in a package
+    public function GetAvailableSessions($PackageNumber)
+    {
+        $admin=new Admin();
+        return $admin->GetAvailableSessions($PackageNumber);
+    }
+    
+    //get name and id for all tainers working
+    public function GetTrainers()
+    {
+        $admin=new Admin();
+        return $admin->GetTrainers();
+    }
 }
