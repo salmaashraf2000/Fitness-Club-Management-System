@@ -60,7 +60,8 @@ class Trainer extends Person implements Profile{
         }
          $table='TrainersShiftInfo';
          $fields='TimeStartingShift,TimeEndingShift';
-         $result=$this->select($table,"TrainerId=$trainerID AND TimeStartingShift<=$sessionStart AND TimeEndingShift>=$sessionEnd",$fields,'');
+         $result=$this->select($table,"TrainerId=$trainerID AND 
+         TimeStartingShift<=$sessionStart AND TimeEndingShift>=$sessionEnd",$fields,'');
          if($this->countRows()==0)
          {
              
@@ -94,7 +95,8 @@ class Trainer extends Person implements Profile{
         $table2='UsersInformation as u';
         $fields='u.ID,u.FirstName,u.LastName';
         $currentDate= date("Y-m-d");
-        $result= $this->selectJoin($table1,'',$fields,'',$table2,0,"e.MemberID=u.ID AND e.StartDate<='$currentDate' AND e.EndDate>='$currentDate' AND e.TrainerID=$trainerID AND e.SessionStartTime=$sessionStart AND e.SessionEndTime=$sessionEnd");
+        $result= $this->selectJoin($table1,'',$fields,'',$table2,0,"e.MemberID=u.ID AND e.StartDate<='$currentDate'
+        AND e.EndDate>='$currentDate' AND e.TrainerID=$trainerID AND e.SessionStartTime=$sessionStart AND e.SessionEndTime=$sessionEnd");
         echo $this->countRows();
         return mysqli_fetch_all($result,MYSQLI_ASSOC);
     }
@@ -121,7 +123,8 @@ class Trainer extends Person implements Profile{
                $table1='EnrollementOfMember';
                $fields='SessionStartTime,SessionEndTime';
                $memberId=$row['ID'];
-               $result= $this->select($table1,"TrainerID=$TrainerId AND MemberID=$memberId AND StartDate<='$currentDate' AND EndDate>='$currentDate'",$fields,'');
+               $result= $this->select($table1,"TrainerID=$TrainerId AND MemberID=$memberId 
+               AND StartDate<='$currentDate' AND EndDate>='$currentDate'",$fields,'');
               
                $Row= mysqli_fetch_assoc($result);
                
@@ -137,7 +140,8 @@ class Trainer extends Person implements Profile{
                $attend=1;
                
            }   
-           $data=array('TrainerId'=>$TrainerId,'MemberId'=>$row['ID'],'Attendance'=>$attend,'sessionStartTime'=>$sessionStart,'sessionEndTime'=>$sessionEnd,'Date'=>$currentDate);
+           $data=array('TrainerId'=>$TrainerId,'MemberId'=>$row['ID'],'Attendance'=>$attend,
+           'sessionStartTime'=>$sessionStart,'sessionEndTime'=>$sessionEnd,'Date'=>$currentDate);
            $this->insert($table,$data);
         }
     }
@@ -148,7 +152,8 @@ class Trainer extends Person implements Profile{
         
         $table='MembersAttendance';
         $currentDate= date("Y-m-d");
-        $result= $this->select($table,"TrainerId=$TrainerId AND sessionStartTime=$sessionStart AND sessionEndTime=$sessionEnd AND Date='$currentDate'");
+        $result= $this->select($table,"TrainerId=$TrainerId AND sessionStartTime=$sessionStart
+        AND sessionEndTime=$sessionEnd AND Date='$currentDate'");
         if($this->countRows()>0)
         {
             //attendance already taken
@@ -158,14 +163,16 @@ class Trainer extends Person implements Profile{
             return false;
         }
     }
-    //view profile
+    //trainer view profile
     public function ViewProfile($ID)
     {
         $table1='UsersInformation as u';
         $table2='TrainersShiftInfo as t';
         $table3='ProfilePictures as p';
-        $fields='u.FirstName,u.LastName,u.PhoneNumber,u.Email,t.TimeStartingShift,t.TimeEndingShift,t.packageNo,p.ProfilePicture';
-        $result= $this->selectJoin($table1,'', $fields,'',$table2,0,"u.ID=t.TrainerId AND u.ID='$ID'",$table3,1,"u.ID=p.UserID");
+        $fields='u.FirstName,u.LastName,u.PhoneNumber,u.Email,t.TimeStartingShift,
+        t.TimeEndingShift,t.packageNo,p.ProfilePicture';
+        $result= $this->selectJoin($table1,'', $fields,'',$table2,0,
+        "u.ID=t.TrainerId AND u.ID='$ID'",$table3,1,"u.ID=p.UserID");
         return mysqli_fetch_assoc($result);
     }
   

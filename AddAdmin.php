@@ -1,59 +1,70 @@
 <?php
 
-require_once 'Admin.php';
-require_once 'Validation.php';
-//session_start();
+
+    session_start();
+
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+
+    require_once 'Admin.php';
+    require_once 'Validation.php';
+
+    $FirstName= $Email = $LastName  =" ";
+    $FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr ="";
+    $msg=""; 
+    $valid=new Validation();
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        //remove unwanted characters from data
+        $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
+        $_POST['LastName']= $valid->test_input($_POST['LastName']);
+        $_POST['Email']= $valid->test_input($_POST['Email']);
+        $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
+
+        $FirstnameErr=$valid->Name($_POST['FirstName']);
+        $LastnameErr=$valid->Name($_POST['LastName']);
+        $emailErr=$valid->Email($_POST['Email']);
+        $passwordErr=$valid->Password($_POST['Password']);
+        $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
+        $AgeErr=$valid->Age($_POST['Age']);
+        $genderErr=$valid->Radio($_POST["Gender"]);
+
+        $FirstName=$_POST['FirstName'];
+        $LastName=$_POST['LastName'];
+        $Email=$_POST['Email'];
+        $Age=$_POST['Age'];
+        $PhoneNumber=$_POST['PhoneNumber'];
+
+      if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="")
+      {
+
+         $admin=new Admin();
+         $admin->setFirstName($_POST['FirstName']);
+         $admin->setLastName($_POST['LastName']);
+         $admin->setPhoneNumber($_POST['PhoneNumber']);
+         $admin->setEmail($_POST['Email']);
+         $admin->setAge($_POST['Age']);
+         $admin->setGender($_POST['Gender']);
+         $admin->setPassword($_POST['Password']);
+         $admin->AddAdmin($admin);
+         $msg='Admin added Successfully';
+      }else
+      {
+
+          $msg='Failed to add  Admin';
+      }
 
 
-$FirstName= $Email = $LastName  =" ";
-$FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr ="";
-$msg=""; 
-$valid=new Validation();
+      echo "<script type='text/javascript'>alert('$msg');</script>";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
-    $_POST['LastName']= $valid->test_input($_POST['LastName']);
-    $_POST['Email']= $valid->test_input($_POST['Email']);
-    $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
-    
-    $FirstnameErr=$valid->Name($_POST['FirstName']);
-    $LastnameErr=$valid->Name($_POST['LastName']);
-    $emailErr=$valid->Email($_POST['Email']);
-    $passwordErr=$valid->Password($_POST['Password']);
-    $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
-    $AgeErr=$valid->Age($_POST['Age']);
-    $genderErr=$valid->Gender($_POST["Gender"]);
-    
-    $FirstName=$_POST['FirstName'];
-    $LastName=$_POST['LastName'];
-    $Email=$_POST['Email'];
-    $Age=$_POST['Age'];
-    $PhoneNumber=$_POST['PhoneNumber'];
-    
-  if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="")
-  {
-     
-     $admin=new Admin();
-     $admin->setFirstName($_POST['FirstName']);
-     $admin->setLastName($_POST['LastName']);
-     $admin->setPhoneNumber($_POST['PhoneNumber']);
-     $admin->setEmail($_POST['Email']);
-     $admin->setAge($_POST['Age']);
-     $admin->setGender($_POST['Gender']);
-     $admin->setPassword($_POST['Password']);
-     $admin->AddAdmin($admin);
-  $msg='Admin added Successfully';
-  }else
-  {
-      
-      $msg='Failed to add  Admin';
-  }
-  
- 
-  echo "<script type='text/javascript'>alert('$msg');</script>";
-  
-}
+    }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 <html>
     <head>
@@ -82,6 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </form>
         
     </body>
-</html>
+</html>-->
 
 

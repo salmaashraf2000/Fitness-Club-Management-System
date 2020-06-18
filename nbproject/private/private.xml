@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/PhpProject/AddMember.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/EnrollInPackage.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/DeletePackage.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/AdminEditTrainer.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewAdmins.php</file>
@@ -42,6 +43,7 @@
             <file>file:/C:/xampp/htdocs/PhpProject/NewPassword.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/ViewProfileAdmin.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/EditPackage.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/GiveFeedback.php</file>
         </group>
     </open-files>
 </project-private>

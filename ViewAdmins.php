@@ -1,16 +1,31 @@
 <?php
 
-require 'Admin.php';
+    session_start();
 
-//session_start();
-$admin= new Admin();
-$admins=$admin->ViewAdmins();
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-        $admins=$admin->SearchAdmin($_POST['search']);
-    
-}
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+        require 'Admin.php';
+
+
+        $admin= new Admin();
+        
+        //get all admins
+        $admins=$admin->ViewAdmins();
+        
+         //if the admin searched for a member
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+
+            //result of the search is shown
+            $admins=$admin->SearchAdmin($_POST['search']);
+
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 
 <html>
@@ -28,8 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <table cellpadding="8">
             <thread>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
                     <th>Profile Picture</th>
@@ -38,8 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             </thread>   
             <?php            foreach ($admins as $row){ ?>
                 <tr>
-                    <td><?= $row['FirstName']?></td>
-                    <td><?= $row['LastName']?></td>
+                    <td><?= $row['FirstName'].' '.$row['LastName']?></td>
                     <td><?= '0'.$row['PhoneNumber']?></td>
                     <td><?= $row['Email']?></td>
                     <td> <?php if($row['ProfilePicture']){ ?> <img src="../ProfilePicture/<?php echo $row['ProfilePicture']; ?>" style="width: 100px; height:100px"/>' <?php }else { echo 'No Image';} ?> </td>
@@ -50,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </table>
         
     </body>
-</html>
+</html>-->
 
 
 

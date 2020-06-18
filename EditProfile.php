@@ -1,84 +1,106 @@
 <?php
-require_once 'Admin.php';
-require_once  'Member.php';
-require_once 'Admin.php';
-require_once 'Validation.php';
-require_once 'Person.php';
-session_start();
 
 
 
- $passwordErr=  $PhoneErr ="";
-$msg=""; 
-$person=new Person();
-$row=$person->GetPhone();
- $valid=new Validation();
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
+    session_start();
+
+    if($_SESSION['id'])
+    {
+        require_once 'Admin.php';
+        require_once  'Member.php';
+        require_once 'Admin.php';
+        require_once 'Validation.php';
+        require_once 'Person.php';
+        
     
-    
-    $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
-    
-    
-    $passwordErr=$valid->Password($_POST['Password']);
-    $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
-    
-    
-    
-    $Password=$_POST['Password'];
-    
-    $PhoneNumber=$_POST['PhoneNumber'];
- 
-  if( $passwordErr=="" && $PhoneErr=="")
-  {
+
+
+     $passwordErr=  $PhoneErr ="";
+    $msg=""; 
+    $person=new Person();
+    $row=$person->GetPhone();
+     $valid=new Validation();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+
+
+        $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
+
+
+        $passwordErr=$valid->Password($_POST['Password']);
+        $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
+
+
+
+        $Password=$_POST['Password'];
+
+        $PhoneNumber=$_POST['PhoneNumber'];
+
+      if( $passwordErr=="" && $PhoneErr=="")
+      {
+
+         if($_SESSION['UserType']=='admin')
+         {
+             $admin=new Admin();
+             $admin->EditProfile($_POST['PhoneNumber'],$Password);
+             $admin->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
+         }else if($_SESSION['UserType']=='member')
+         {
+             $member=new Member();
+             $member->EditProfile($_POST['PhoneNumber'],$Password);
+             $member->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
+         } else if($_SESSION['UserType']=='trainer')
+         {
+             $trainer=new Trainer();
+             $trainer->EditProfile($_POST['PhoneNumber'],$Password);
+             $trainer->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
+         }
+
+         if($_SESSION['UserType']=='admin')
+         {
+
+             
+             echo "<script>alert('Information updated successfully');
+             window.location.href='ViewProfileAdmin.php';
+              </script>";
+         }else if($_SESSION['UserType']=='member')
+         {
+
+             
+             echo "<script>alert('Information updated successfully');
+             window.location.href='ViewProfileMember.php';
+              </script>";
+         } else if($_SESSION['UserType']=='trainer')
+         {
+
+
+             echo "<script>alert('Information updated successfully');
+             window.location.href='ViewProfileTrainer.php';
+              </script>";
+         }
+        
+        
+
+
+      }else
+      {
+
+          $msg='Failed to update information';
+          echo "<script type='text/javascript'>alert('$msg');</script>";
+      }
+
+
      
-     if($_SESSION['UserType']=='admin')
-     {
-         $admin=new Admin();
-         $admin->EditProfile($_POST['PhoneNumber'],$Password);
-         $admin->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
-     }else if($_SESSION['UserType']=='member')
-     {
-         $member=new Member();
-         $member->EditProfile($_POST['PhoneNumber'],$Password);
-         $member->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
-     } else if($_SESSION['UserType']=='trainer')
-     {
-         $trainer=new Trainer();
-         $trainer->EditProfile($_POST['PhoneNumber'],$Password);
-         $trainer->ProfilePicture($_SERVER['DOCUMENT_ROOT']);  
-     }
-     
-     if($_SESSION['UserType']=='admin')
-     {
-          
-         header("Location:ViewProfileAdmin.php");
-     }else if($_SESSION['UserType']=='member')
-     {
-         
-         header("Location:ViewProfileMember.php");
-     } else if($_SESSION['UserType']=='trainer')
-     {
-         
-         header("Location:ViewProfileTrainer.php");
-     }
-     
-    //$msg='Information updated successfully';
-    
-  
-  }else
-  {
-      
-      $msg='Failed to update information';
-  }
-  
- 
-  echo "<script type='text/javascript'>alert('$msg');</script>";
- 
-   
-   
-  
-}
+
+
+    }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
+
 ?>
 <html>
     <head>
@@ -98,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </form>
         
     </body>
-</html>
+</html>-->
 
 
 

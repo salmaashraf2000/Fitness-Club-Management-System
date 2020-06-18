@@ -1,18 +1,29 @@
-
 <?php
-session_start();
-require_once  'Trainer.php';
-if($_SESSION['id']){
-  $trainer=new Trainer();
-  echo $_SESSION['id'];
-  $row=$trainer->ViewProfile($_SESSION['id']);
-} 
- if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-      header("Location:EditProfile.php");
-      
-} 
 
+    session_start();
+    
+    //check if trainer is loggedin
+    if($_SESSION['id'] && $_SESSION['UserType']=='trainer')
+    {
+      require_once  'Trainer.php';
+
+      $trainer=new Trainer();
+      
+      //get data of the trainer
+      $row=$trainer->ViewProfile($_SESSION['id']);
+
+     //if trainer clicked edit profile button 
+     if ($_SERVER['REQUEST_METHOD'] == 'POST')
+     {
+          header("Location:EditProfile.php");
+
+     } 
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 <html>
     <head>

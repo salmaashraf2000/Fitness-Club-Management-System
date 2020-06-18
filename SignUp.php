@@ -1,57 +1,58 @@
 
 <?php
 
-require_once  'Member.php';
-require_once 'Validation.php';
-//session_start();
+    require_once  'Member.php';
+    require_once 'Validation.php';
+    session_start();
 
 
-$FirstName= $Email = $LastName =$Age=$PhoneNumber ="";
-$FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr ="";
-$msg=""; 
+    $FirstName= $Email = $LastName =$Age=$PhoneNumber ="";
+    $FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr ="";
+    $msg=""; 
 
- $valid=new Validation();
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-    $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
-    $_POST['LastName']= $valid->test_input($_POST['LastName']);
-    $_POST['Email']= $valid->test_input($_POST['Email']);
-    $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
-    
-    $FirstnameErr=$valid->Name($_POST['FirstName']);
-    $LastnameErr=$valid->Name($_POST['LastName']);
-    $emailErr=$valid->Email($_POST['Email']);
-    $passwordErr=$valid->Password($_POST['Password']);
-    $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
-    $AgeErr=$valid->Age($_POST['Age']);
-    $genderErr=$valid->Gender($_POST["Gender"]);
-    
-    $FirstName=$_POST['FirstName'];
-    $LastName=$_POST['LastName'];
-    $Email=$_POST['Email'];
-    $Age=$_POST['Age'];
-    $PhoneNumber=$_POST['PhoneNumber'];
- 
-  
-  if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="")
-  {
-     
-     
-     $member=new Member();
-     $member->setFirstName($_POST['FirstName']);
-     $member->setLastName($_POST['FirstName']);
-     $member->setPhoneNumber($_POST['PhoneNumber']);
-     $member->setEmail($_POST['Email']);
-     $member->setAge($_POST['Age']);
-     $member->setGender($_POST['Gender']);
-     $member->setPassword($_POST['Password']);
-     $member->SignUp($member);
-    
-  
-  }
-  
-}
+     $valid=new Validation();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        //remove any unwanted characters from data
+        $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
+        $_POST['LastName']= $valid->test_input($_POST['LastName']);
+        $_POST['Email']= $valid->test_input($_POST['Email']);
+        $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
+
+        $FirstnameErr=$valid->Name($_POST['FirstName']);
+        $LastnameErr=$valid->Name($_POST['LastName']);
+        $emailErr=$valid->Email($_POST['Email']);
+        $passwordErr=$valid->Password($_POST['Password']);
+        $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
+        $AgeErr=$valid->Age($_POST['Age']);
+        $genderErr=$valid->Radio($_POST["Gender"]);
+
+        $FirstName=$_POST['FirstName'];
+        $LastName=$_POST['LastName'];
+        $Email=$_POST['Email'];
+        $Age=$_POST['Age'];
+        $PhoneNumber=$_POST['PhoneNumber'];
+
+
+      if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="")
+      {
+
+
+         $member=new Member();
+         $member->setFirstName($_POST['FirstName']);
+         $member->setLastName($_POST['FirstName']);
+         $member->setPhoneNumber($_POST['PhoneNumber']);
+         $member->setEmail($_POST['Email']);
+         $member->setAge($_POST['Age']);
+         $member->setGender($_POST['Gender']);
+         $member->setPassword($_POST['Password']);
+         $member->SignUp($member);
+
+
+      }
+
+    }
+
 ?>
 <html>
     <head>

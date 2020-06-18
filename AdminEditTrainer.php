@@ -1,57 +1,72 @@
 <?php
 
-require_once 'Admin.php';
-require_once 'Validation.php';
-//session_start();
 
-$packageNo="";
-$packageNoErr=$ShiftErr=""; 
-$msg="";
-$ID= filter_input(INPUT_GET,'id',FILTER_SANITIZE_NUMBER_INT);
-$packageNo=filter_input(INPUT_GET,'packageNo',FILTER_SANITIZE_NUMBER_INT);
-$TimeStartingShift=filter_input(INPUT_GET,'TimeStartingShift',FILTER_SANITIZE_NUMBER_INT);
-$TimeEndingShift=filter_input(INPUT_GET,'TimeEndingShift',FILTER_SANITIZE_NUMBER_INT);
-$admin=new Admin();
-$valid=new Validation();
+    session_start();
 
-$packages=$admin->ViewPackages();  
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
- 
-   $packageNoErr=$valid->Text($_POST['Packages']);
-   $ShiftErr=$valid->Text($_POST['Shift']);
-  
-  if($packageNoErr=="" && $ShiftErr=="" )
-  {
-     
-       if($admin->CheckIfAnyMemberEnrollWithTrainer($ID)==false || ($packageNo==$_POST['Packages'] && (($TimeStartingShift==8 && $_POST[Shift]=='morning') || ($TimeStartingShift==14 && $_POST[Shift]=='evening'))  ))
-       {
-            $admin->EditTrainer($ID,$_POST['Shift'], $_POST['Packages']);
-            header("Location:ViewTrainers.php");
-       } else 
-       {
-              //some members are training with this trainer ,if you change shift or package the members wont have a trainer
-              $msg='Can not update information as there would be a conflict';
-           
-       }
-       //$msg='Information updated successfully';
-      
-  }else
-  {
-      
-      $msg='Failed to update information';
-      
-  }
-  
- 
-  echo "<script type='text/javascript'>alert('$msg');</script>";
+        require_once 'Admin.php';
+        require_once 'Validation.php';
 
-}
+        $packageNo="";
+        $packageNoErr=$ShiftErr=""; 
+        $msg="";
+        $ID= filter_input(INPUT_GET,'id',FILTER_SANITIZE_NUMBER_INT);
+        $packageNo=filter_input(INPUT_GET,'packageNo',FILTER_SANITIZE_NUMBER_INT);
+        $TimeStartingShift=filter_input(INPUT_GET,'TimeStartingShift',FILTER_SANITIZE_NUMBER_INT);
+        $TimeEndingShift=filter_input(INPUT_GET,'TimeEndingShift',FILTER_SANITIZE_NUMBER_INT);
+        $admin=new Admin();
+        $valid=new Validation();
+
+        //get all packages
+        $packages=$admin->ViewPackages();  
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+
+           $packageNoErr=$valid->Text($_POST['Packages']);
+           $ShiftErr=$valid->Text($_POST['Shift']);
+
+          if($packageNoErr=="" && $ShiftErr=="" )
+          {
+
+               if($admin->CheckIfAnyMemberEnrollWithTrainer($ID)==false || ($packageNo==$_POST['Packages'] && (($TimeStartingShift==8 && $_POST[Shift]=='morning') || ($TimeStartingShift==14 && $_POST[Shift]=='evening'))  ))
+               {
+                   //edit trainer's data
+                    $admin->EditTrainer($ID,$_POST['Shift'], $_POST['Packages']);
+                    echo "<script>alert('Information updated successfully');
+                    window.location.href='ViewTrainers.php';
+                    </script>";
+               } else 
+               {
+                      //some members are training with this trainer ,if you change shift or package the members wont have a trainer
+                      $msg='Can not update information as there would be a conflict';
+
+               }
+               //$msg='Information updated successfully';
+
+          }else
+          {
+
+              $msg='Failed to update information';
+
+          }
+
+
+      echo "<script type='text/javascript'>alert('$msg');</script>";
+
+    }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 
 ?>
 
-</script>
+
 <html>
     <head>
         <meta charset="UTF-8">

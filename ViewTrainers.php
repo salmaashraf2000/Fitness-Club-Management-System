@@ -1,17 +1,31 @@
 <?php
 
-require 'Admin.php';
-
-//session_start();
-$admin= new Admin();
-$trainers=$admin->ViewTrainers();
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
+    session_start();
     
-        $trainers=$admin->SearchTrainer($_POST['search']);
-    
-}
+    //check that admin is loggedin
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+        require 'Admin.php';
+
+        
+        $admin= new Admin();
+        
+        //get all trainers
+        $trainers=$admin->ViewTrainers();
+        
+        //if admin searched for a trainer
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+                //get all trainers that match the search
+                $trainers=$admin->SearchTrainer($_POST['search']);
+
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 
 
@@ -30,8 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <table cellpadding="8">
             <thread>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Name</th>
                     <th>Phone Number</th>
                     <th>Email</th>
                     <th>Package Number</th>
@@ -44,8 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             </thread>   
             <?php            foreach ($trainers as $row){ ?>
                 <tr>
-                    <td><?= $row['FirstName']?></td>
-                    <td><?= $row['LastName']?></td>
+                    <td><?= $row['FirstName'].' '.$row['LastName']?></td>
                     <td><?= '0'.$row['PhoneNumber']?></td>
                     <td><?= $row['Email']?></td>
                     <td><?= $row['packageNo']?></td>

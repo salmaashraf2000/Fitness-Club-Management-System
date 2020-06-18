@@ -1,80 +1,92 @@
 <?php
 
-require_once 'Admin.php';
-require_once 'Trainer.php';
-require_once 'Validation.php';
 
-//session_start();
+    session_start();
 
-$valid=new Validation();
-$FirstName= $Email = $LastName  =$Age=$PackageNo=$PhoneNumber="";
-$msg="";
-$FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr =$ShiftErr= $packageNoErr="";
- $admin=new Admin();
-$packages=$admin->ViewPackages();  
-  
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
-    $_POST['LastName']= $valid->test_input($_POST['LastName']);
-    $_POST['Email']= $valid->test_input($_POST['Email']);
-    $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
-    
-    $FirstnameErr=$valid->Name($_POST['FirstName']);
-    $LastnameErr=$valid->Name($_POST['LastName']);
-    $emailErr=$valid->Email($_POST['Email']);
-    $passwordErr=$valid->Password($_POST['Password']);
-    $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
-    $AgeErr=$valid->Age($_POST['Age']);
-    $genderErr=$valid->Gender($_POST["Gender"]);
-    $ShiftErr=$valid->Number($_POST['Shift']);
-    $packageNoErr=$valid->Text($_POST['Packages']);
-    
-    $FirstName=$_POST['FirstName'];
-    $LastName=$_POST['LastName'];
-    $Email=$_POST['Email'];
-    $Age=$_POST['Age'];
-    $PhoneNumber=$_POST['PhoneNumber'];
-    $PackageNo=$_POST['Packages'];
-    echo 'pack '.$_POST['Packages'];
-  
-  
-  if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="" && $ShiftErr=="" && $packageNoErr=="")
-  {
-     
-     
-     $trainer=new Trainer();
-     $trainer->setFirstName($_POST['FirstName']);
-     $trainer->setLastName($_POST['FirstName']);
-     $trainer->setPhoneNumber($_POST['PhoneNumber']);
-     $trainer->setEmail($_POST['Email']);
-     $trainer->setAge($_POST['Age']);
-     $trainer->setGender($_POST['Gender']);
-     $trainer->setPassword($_POST['Password']);
-     
-     if($_POST['Shift']==='morning')
-     {
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+
+        require_once 'Admin.php';
+        require_once 'Trainer.php';
+        require_once 'Validation.php';
+
+        $valid=new Validation();
+        $FirstName= $Email = $LastName  =$Age=$PackageNo=$PhoneNumber="";
+        $msg="";
+        $FirstnameErr = $emailErr = $genderErr = $LastnameErr = $passwordErr= $AgeErr = $PhoneErr =$ShiftErr= $packageNoErr="";
+         $admin=new Admin();
          
-         $trainer->setTimeStartingShift(8);
-         $trainer->setTimeEndingShift(14);
-     } else 
-     {
-         
-         $trainer->setTimeStartingShift(14);
-         $trainer->setTimeEndingShift(22);
-     }
-     $admin->AddTrainer($trainer,$_POST['Packages']);
-       $msg='Trainer added Successfully';
-  }else
-  {
-      
-      $msg='Failed to add trainer';
-  }
-  
- 
-  echo "<script type='text/javascript'>alert('$msg');</script>";
+        //get all packages 
+        $packages=$admin->ViewPackages();  
 
-}
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $_POST['FirstName']=$valid->test_input($_POST['FirstName']);
+            $_POST['LastName']= $valid->test_input($_POST['LastName']);
+            $_POST['Email']= $valid->test_input($_POST['Email']);
+            $_POST['PhoneNumber']= $valid->test_input($_POST['PhoneNumber']);
+
+            $FirstnameErr=$valid->Name($_POST['FirstName']);
+            $LastnameErr=$valid->Name($_POST['LastName']);
+            $emailErr=$valid->Email($_POST['Email']);
+            $passwordErr=$valid->Password($_POST['Password']);
+            $PhoneErr=$valid->PhoneNumber($_POST['PhoneNumber']);
+            $AgeErr=$valid->Age($_POST['Age']);
+            $genderErr=$valid->Radio($_POST["Gender"]);
+            $ShiftErr=$valid->Number($_POST['Shift']);
+            $packageNoErr=$valid->Text($_POST['Packages']);
+
+            $FirstName=$_POST['FirstName'];
+            $LastName=$_POST['LastName'];
+            $Email=$_POST['Email'];
+            $Age=$_POST['Age'];
+            $PhoneNumber=$_POST['PhoneNumber'];
+            $PackageNo=$_POST['Packages'];
+            
+
+
+          if($FirstnameErr=="" && $emailErr=="" &&  $genderErr=="" && $LastnameErr=="" && $passwordErr=="" && $AgeErr=="" && $PhoneErr=="" && $ShiftErr=="" && $packageNoErr=="")
+          {
+
+
+             $trainer=new Trainer();
+             $trainer->setFirstName($_POST['FirstName']);
+             $trainer->setLastName($_POST['FirstName']);
+             $trainer->setPhoneNumber($_POST['PhoneNumber']);
+             $trainer->setEmail($_POST['Email']);
+             $trainer->setAge($_POST['Age']);
+             $trainer->setGender($_POST['Gender']);
+             $trainer->setPassword($_POST['Password']);
+
+             if($_POST['Shift']==='morning')
+             {
+
+                 $trainer->setTimeStartingShift(8);
+                 $trainer->setTimeEndingShift(14);
+             } else 
+             {
+
+                 $trainer->setTimeStartingShift(14);
+                 $trainer->setTimeEndingShift(22);
+             }
+             $admin->AddTrainer($trainer,$_POST['Packages']);
+               $msg='Trainer added Successfully';
+          }else
+          {
+
+              $msg='Failed to add trainer';
+          }
+
+
+          echo "<script type='text/javascript'>alert('$msg');</script>";
+
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 
 ?>
 

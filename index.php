@@ -1,43 +1,71 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<?php
+
+session_start();
+require_once 'Validation.php';
+require_once  'Person.php';
+ $Email ="";
+ $emailErr =  $passwordErr= "";
+$valid=new Validation();
+$person=new Person();
+  
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    
+    $_POST['Email']= $valid->test_input($_POST['Email']);
+    
+    $emailErr=$valid->EmailLogin($_POST['Email']);
+    $passwordErr=$valid->Password($_POST['Password']);
+    
+    $Email=$_POST['Email'];
+    if($person->Login($_POST['Email'],$_POST['Password'])==true)
+    {        
+        if($_SESSION['FirstLogin']==0)
+        {
+            
+            header("Location:NewPassword.php"); 
+        }else
+        {
+             if($_SESSION['UserType']=='admin') //admin
+             {
+                 header("Location:ViewProfileAdmin.php");
+                 
+             }else if($_SESSION['UserType']=='member') //member
+             {
+                 header("Location:ViewProfileMember.php"); 
+             
+             } else if($_SESSION['UserType']=='trainer')//trainer
+             {
+                 header("Location:ViewProfileTrainer.php");
+            
+             }
+        }
+    }else
+    {
+        echo '*Wrong Email or password';
+    }
+   
+}
+   
+?>
+
 <html>
     <head>
         <meta charset="UTF-8">
         <title></title>
     </head>
     <body>
-        <?php
-        
-        
-        //require 'person.php';
-        // put your code here
-        /*$servername="localhost";
-        $username="root";
-        $password="";
-        $databasename="fitnessdatabase";
-        $conn = new mysqli($servername,$username,$password,$databasename);
-        if($conn->connect_error){
-            die("connection failed " .$conn->connect_error);
-        }
-        echo 'connected';
-        
-        echo"<input type='text' name='name'>";*/
-       /* $admin=new Admin();
-        $result=$admin->ViewPackages();
-        if($result!==null){
-        foreach($result as $row){
-          echo $row['PackageNumber'];
-           echo $row['PackageInfo'];   
-        }
-        }*/
-        //$admin->query('select');
-   // @mysql_connect("localhost","root","") || die("connection failed ");
-      //  echo 'connected';
-        ?>
-        
+       
+         <form method="post" action="">  
+          E-mail: <input type="email" name="Email" value="<?php echo $Email;?>"><?php echo $emailErr;?>
+          <br><br>
+          Password: <input type="password" name="Password"  ><?php echo $passwordErr;?>
+          <br><br>
+          <input type="submit" name="submit1" value="Login" > OR  <a href="SignUp.php"> Sign up </a>
+        </form>
     </body>
 </html>
+
+
+
+

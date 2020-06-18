@@ -1,8 +1,36 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+class Feedback{
+    
+    private $TrainerID;
+    private $MemberID;
+    private $feedback;
+
+    public function getTrainerID() {
+        return $this->TrainerID;
+    }
+
+    public function getMemberID() {
+        return $this->MemberID;
+    }
+
+    public function getFeedback() {
+        return $this->feedback;
+    }
+
+    public function setTrainerID($TrainerID) {
+        $this->TrainerID = $TrainerID;
+    }
+
+    public function setMemberID($MemberID) {
+        $this->MemberID = $MemberID;
+    }
+
+    public function setFeedback($feedback) {
+        $this->feedback = $feedback;
+    }
+
+
+ 
+}
 

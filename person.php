@@ -137,7 +137,7 @@ class Person{
         return mysqli_fetch_assoc($result);     
     }
    
-    //set new profile picture
+    //set profile picture
     public function ProfilePicture($documentRoot)
     {
         $upload_directory=$documentRoot.'/ProfilePicture';
@@ -145,14 +145,14 @@ class Person{
         $id=$_SESSION['id'];
         if($_FILES["ProfilePicture"]['error']==UPLOAD_ERR_OK)
         {
-            echo 'i am here ';
+         
             $tmpName=$_FILES['ProfilePicture']['tmp_name'];
             //to ignore any special charecters and get the base name only
             $ProfilePicture= basename($_FILES['ProfilePicture']['name']);
-           //move file from temp directory to another place
             $ProfilePicture=$id.$ProfilePicture;
+            //move file from temp directory to another place
             move_uploaded_file($tmpName, "$upload_directory/$ProfilePicture");    
-            echo 'prof '.$ProfilePicture;
+           
            
             $result= $this->select('ProfilePictures',"UserID='$id'");
             if($this->countRows()==1){

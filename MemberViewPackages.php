@@ -1,9 +1,22 @@
 <?php
  
-require_once 'Member.php';
-$member=new Member();
-$packages=$member->ViewPackages();
- 
+    session_start();
+
+    if($_SESSION['id'] && $_SESSION['UserType']=='member')
+    {
+        
+        require_once 'Member.php';
+        $member=new Member();
+        
+        //get all packages
+        $packages=$member->ViewPackages();
+        
+    }else
+        {
+            echo "<script>alert('Must login');
+                 window.location.href='index.php';
+                  </script>";
+    }
 ?>
  
 <html>
@@ -16,6 +29,7 @@ $packages=$member->ViewPackages();
         <table cellpadding="8">
             <thread>
                 <tr>
+                    
                     <th>Package Number</th>
                     <th>Package Information</th>
                     <th>Number of Jacuzzi sessions</th>
@@ -41,9 +55,8 @@ $packages=$member->ViewPackages();
                     <td><?= $row['NumberOfMonths']?></td>
                     <td><?= $row['Price']?></td>
                     <td><?= $row['Discount']?></td>
-                    <td><a href="AvailableSessions.php?id=<?= $row['id']?>&packageNo=<?= $row['packageNo']?>&trainerID=<?= $row['trainerID']?>&SessionStartTime=<?= $row['SessionStartTime']?>&SessionEndTime=<?= $row['SessionEndTime']?>">Edit</a> 
- 
- 
+                    <td><a href="EnrollInPackage.php?PackageNumber=<?= $row['PackageNumber']?>&NumberOfMonths=<?= $row['NumberOfMonths']?>">Enroll</a> </td> 
+
                 </tr>    
             <?php } ?>     
         </table>

@@ -1,22 +1,33 @@
-
 <?php
-session_start();
-require_once  'Member.php';
 
-if($_SESSION['id']){
-  $member=new Member();
-  
-  $row=$member->ViewProfile($_SESSION['id']);
-} 
-  if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{     
-     
-      if(isset($_POST['submit']))
+
+    session_start();
+
+    ///check if a member is loggedin
+    if($_SESSION['id'] && $_SESSION['UserType']=='member'){
+
+      require_once  'Member.php';
+
+
+      $member=new Member();
+      //get the data of the memeber
+      $row=$member->ViewProfile($_SESSION['id']);
+
+      //if the member clicked edit profile button 
+      if ($_SERVER['REQUEST_METHOD'] == 'POST')
+      {     
+
+          if(isset($_POST['submit']))
+        {
+          header("Location:EditProfile.php");
+        }
+      }
+    }else
     {
-      header("Location:EditProfile.php");
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
     }
-}
-
 ?>
 <html>
     <head>

@@ -1,9 +1,22 @@
 <?php
 
-require_once 'Admin.php';
-$admin=new Admin();
-$packages=$admin->ViewPackages();
 
+    session_start();
+
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+        require_once 'Admin.php';
+        $admin=new Admin();
+        
+        //get all packages
+        $packages=$admin->ViewPackages();
+
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 
 <html>

@@ -1,22 +1,32 @@
-
 <?php
-session_start();
-require_once  'Admin.php';
+    session_start();
 
-if($_SESSION['id']){
-  $admin=new admin();
-  
-  $row=$admin->ViewProfile($_SESSION['id']);
-} 
- if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-    if(isset($_POST['submit']))
+    //check if a member is loggedin
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
     {
-    
-      header("Location:EditProfile.php");
-    }  
-}
+        require_once  'Admin.php';
+
+        $admin=new admin();
+
+        //get data of the admin
+         $row=$admin->ViewProfile($_SESSION['id']);
+        
+         //if the admin clicked edit profile button 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+
+            if(isset($_POST['submit']))
+            {
+
+              header("Location:EditProfile.php");
+            }  
+        }
+     }else
+     {
+            echo "<script>alert('Must login');
+                 window.location.href='index.php';
+                  </script>";
+    }
 
 ?>
 <html>

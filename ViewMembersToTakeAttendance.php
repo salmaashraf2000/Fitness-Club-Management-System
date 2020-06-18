@@ -1,28 +1,35 @@
 <?php
-session_start();
 
+    session_start();
+
+    if($_SESSION['id'] && $_SESSION['UserType']=='trainer'){
 
         
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-  
-    if(isset($_POST['submit']))
-    {
-    
-        if( $_POST['time']!=="")
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-           
-           $_SESSION['time'] = $_POST['time'];
-           header("Location:TrainerTakeAttendance.php"); 
-          
-        }else
-        {
-           echo'*Please fill all fields';
-        }
-    }
- 
-}
+            //if button is clicked
+            if(isset($_POST['submit']))
+            {
+                
+                if( $_POST['time']!=="")
+                {
 
+                   $_SESSION['time'] = $_POST['time'];
+                   header("Location:TrainerTakeAttendance.php"); 
+
+                }else
+                {
+                   echo'*Please fill all fields';
+                }
+            }
+
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 
 

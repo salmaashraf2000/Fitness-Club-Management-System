@@ -120,14 +120,14 @@ class Validation {
        return $PhoneErr;
    }
    
-   public function Gender($gender)
+   public function Radio($radio)
    {
-       $genderErr="";
-        if (empty($gender)) 
+       $Err="";
+        if (empty($radio)) 
         {
-           $genderErr='*Gender is required field';
+           $Err='*This field is required field';
         }
-        return $genderErr;
+        return $Err;
    }
    
    public function Age($age)

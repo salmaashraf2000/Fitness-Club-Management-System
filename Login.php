@@ -1,52 +1,52 @@
 <?php
 
-session_start();
-require_once 'Validation.php';
-require_once  'Person.php';
- $Email ="";
- $emailErr =  $passwordErr= "";
-$valid=new Validation();
-$person=new Person();
-  
+    session_start();
+    require_once 'Validation.php';
+    require_once  'Person.php';
+    $Email ="";
+    $emailErr =  $passwordErr= "";
+    $valid=new Validation();
+    $person=new Person();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-    $_POST['Email']= $valid->test_input($_POST['Email']);
-    
-    $emailErr=$valid->EmailLogin($_POST['Email']);
-    $passwordErr=$valid->Password($_POST['Password']);
-    
-    $Email=$_POST['Email'];
-    if($person->Login($_POST['Email'],$_POST['Password'])==true)
-    {        
-        if($_SESSION['FirstLogin']==0)
-        {
-            
-            header("Location:NewPassword.php"); 
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+
+        $_POST['Email']= $valid->test_input($_POST['Email']);
+
+        $emailErr=$valid->EmailLogin($_POST['Email']);
+        $passwordErr=$valid->Password($_POST['Password']);
+
+        $Email=$_POST['Email'];
+        if($person->Login($_POST['Email'],$_POST['Password'])==true)
+        {        
+            if($_SESSION['FirstLogin']==0)
+            {
+
+                header("Location:NewPassword.php"); 
+            }else
+            {
+                 if($_SESSION['UserType']=='admin') //admin
+                 {
+                     header("Location:ViewProfileAdmin.php");
+
+                 }else if($_SESSION['UserType']=='member') //member
+                 {
+                     header("Location:ViewProfileMember.php"); 
+
+                 } else if($_SESSION['UserType']=='trainer')//trainer
+                 {
+                     header("Location:ViewProfileTrainer.php");
+
+                 }
+            }
         }else
         {
-             if($_SESSION['UserType']=='admin') //admin
-             {
-                 header("Location:ViewProfileAdmin.php");
-                 
-             }else if($_SESSION['UserType']=='member') //member
-             {
-                 header("Location:ViewProfileMember.php"); 
-             
-             } else if($_SESSION['UserType']=='trainer')//trainer
-             {
-                 header("Location:ViewProfileTrainer.php");
-            
-             }
+            echo '*Wrong Email or password';
         }
-    }else
-    {
-        echo '*Wrong Email or password';
+
     }
-   
-}
-   
+
 ?>
 
 <html>

@@ -1,32 +1,46 @@
 <?php
+    session_start();
 
-require_once 'Admin.php';
-require_once 'Validation.php';
-$trainerErr=$timeErr="";
-        
-  $admin= new Admin();
-  $trainers =$admin->GetTrainers();
-  $valid=new Validation();
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-  
-    $trainerErr=$valid->Text($_POST['getTrainers']);
-    $timeErr=$valid->Text($_POST['time']);
-    
-   
-    
-        
-       
-    if($trainerErr=="" && $timeErr=="")
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
     {
+
+        require_once 'Admin.php';
+        require_once 'Validation.php';
+        $trainerErr=$timeErr="";
+
+        $admin= new Admin();
+          
+        //get all trainers
+        $trainers =$admin->ViewTrainers();
+        $valid=new Validation();
         
-       $date=$_POST['Date'];
-       $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$date);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
 
+            $trainerErr=$valid->Text($_POST['getTrainers']);
+            $timeErr=$valid->Text($_POST['time']);
+
+
+
+
+
+            if($trainerErr=="" && $timeErr=="")
+            {
+
+               $date=$_POST['Date'];
+               
+               //get the attendances' of the members of specified session, trainer and date
+               $membersAttendance=$admin->ViewMembersAttendance($_POST['getTrainers'],$_POST['time'],$date);
+
+            }
+           
+        }    
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
     }
-  
-}    
-
 ?>
 
 

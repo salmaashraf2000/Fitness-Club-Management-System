@@ -1,16 +1,30 @@
 <?php
 
-require 'Admin.php';
+    session_start();
 
-//session_start();
-$admin= new Admin();
-$members=$admin->ViewMembers();
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-        $members=$admin->SearchMember($_POST['search']);
-    
-}
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+
+        require 'Admin.php';
+
+        $admin= new Admin();
+
+        //get all members
+        $members=$admin->ViewMembers();
+
+        //if the admin searched for a member
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+                //result of the search is shown
+                $members=$admin->SearchMember($_POST['search']);
+
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 ?>
 
 </script>
@@ -61,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </table>
         
     </body>
-</html>
+</html>-->
 
 
 

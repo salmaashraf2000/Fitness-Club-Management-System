@@ -1,46 +1,71 @@
 <?php
-session_start();
-require 'Trainer.php';
+    session_start();
 
-$l= $_SESSION['time'];
-echo $l;
-$TrainerId=$_SESSION['id'];
- $trainer= new Trainer();
-    $membersNames=$trainer->GETMembersOfSession($_SESSION['time'],$TrainerId);
-if($membersNames==-1)
-{  
-    echo 'Attendance already taken'; 
-}else if($membersNames==0)
-{
-    echo 'you are not allowed to take attendance of this session'; 
-}    
-else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-   
-    if(isset($_POST['submit']))
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
     {
-        
-            if($membersNames) 
-            {
-            
-                $checkedMembers=array();
-                
-                foreach($_POST['check_list'] as $selected)
-                {
-                
-                    $checkedMembers[$selected]=1;
-                }
-            
-                $trainer->TakeMembersAttendance($membersNames,$checkedMembers,$TrainerId);
-            }
-             else{
-                echo 'No Results to show';
-            }  
-          
+
+        require 'Trainer.php';
+
        
+        $TrainerId=$_SESSION['id'];
+        $trainer= new Trainer();
+        
+        //get names of the membeers of the session
+        $membersNames=$trainer->GETMembersOfSession($_SESSION['time'],$TrainerId);
+        
+        if($membersNames==-1)
+        {  
+           
+            echo "<script>alert('Attendance already taken');
+             window.location.href='ViewMembersToTakeAttendance.php';
+              </script>";
+            
+        }else if($membersNames==0)
+        {
+            
+            echo "<script>alert('you are not allowed to take attendance of this session');
+             window.location.href='ViewMembersToTakeAttendance.php';
+              </script>";
+        }    
+        else if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+
+
+            if(isset($_POST['submit']))
+            {
+
+                    if($membersNames) 
+                    {
+
+                        $checkedMembers=array();
+
+                        foreach($_POST['check_list'] as $selected)
+                        {
+
+                            $checkedMembers[$selected]=1;
+                        }
+
+                        //record the attendance of members
+                        $trainer->TakeMembersAttendance($membersNames,$checkedMembers,$TrainerId);
+                    }
+                     else
+                     {
+                        
+                        echo "<script>alert('No Results to show');
+                        window.location.href='ViewMembersToTakeAttendance.php';
+                        </script>";
+                        
+                    }  
+
+
+            }
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
     }
-}
 ?>
 
 <html>
@@ -60,4 +85,4 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST')
               
         </form>  
     </body> 
-</html>
+</html>-->

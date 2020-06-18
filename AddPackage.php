@@ -1,73 +1,87 @@
+
 <?php
 
-require_once 'Admin.php';
-require_once 'Trainer.php';
-require_once 'Validation.php';
-//session_start();
 
-$PackageInfo=$JacuzziNo=$SpaNo=$SteamNo=$SaunaNo=$NumberOfMonths=$Price=$Discount="";
-$PackageInfoErr=$JacuzziNoErr=$SpaNoErr=$SteamNoErr=$SaunaNoErr=$NumberOfMonthsErr=$PriceErr=$DiscountErr=""; 
-$msg="";
 
-$valid=new Validation();  
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    
-    $_POST['PackageInfo']=$valid->test_input($_POST['PackageInfo']);
-    $_POST['JacuzziNo']= $valid->test_input($_POST['JacuzziNo']);
-    $_POST['SpaNo']= $valid->test_input($_POST['SpaNo']);
-    $_POST['SteamNo']= $valid->test_input($_POST['SteamNo']);
-    $_POST['SaunaNo']= $valid->test_input($_POST['SaunaNo']);
-    $_POST['NumberOfMonths']= $valid->test_input($_POST['NumberOfMonths']);
-    $_POST['Price']= $valid->test_input($_POST['Price']);
-    $_POST['Discount']= $valid->test_input($_POST['Discount']);
-    
-    $PackageInfoErr=$valid->Text($_POST["PackageInfo"]);
-    $JacuzziNoErr=$valid->Number($_POST['JacuzziNo']);
-    $SpaNoErr=$valid->Number($_POST['SpaNo']);
-    $SteamNoErr=$valid->Number($_POST['SteamNo']);
-    $SaunaNoErr=$valid->Number($_POST['SaunaNo']);
-    $NumberOfMonthsErr=$valid->Number($_POST['NumberOfMonths']);
-    $PriceErr=$valid->Number($_POST['Price']);  
-    $DiscountErr=$valid->Number($_POST['Discount']);
-           
-    $PackageInfo=$_POST['PackageInfo'];
-    $JacuzziNo=$_POST['JacuzziNo'];
-    $SpaNo=$_POST['SpaNo'];
-    $SteamNo=$_POST['SteamNo'];   
-    $SaunaNo=$_POST['SaunaNo'];
-    $NumberOfMonths=$_POST['NumberOfMonths'];   
-    $Price=$_POST['Price'];
-    $Discount=$_POST['Discount'];   
-            
-  
-  
-  
-  if($PackageInfoErr=="" && $JacuzziNoErr=="" &&  $SpaNoErr=="" && $SteamNoErr=="" && $SaunaNoErr=="" && $NumberOfMonthsErr=="" && $PriceErr=="" && $DiscountErr=="" )
-  {
-     
-     $admin=new Admin();
-     $package=new Package();
-     $package->setPackageInfo($_POST['PackageInfo']);
-     $package->setJacuzziNo($_POST['JacuzziNo']);
-     $package->setSpaNo($_POST['SpaNo']);
-     $package->setSteamNo($_POST['SteamNo']);
-     $package->setSaunaNo($_POST['SaunaNo']);
-     $package->setNumberOfMonths($_POST['NumberOfMonths']);
-     $package->setPrice($_POST['Price']);
-     $package->setDiscount($_POST['Discount']);
-     $admin->AddPackage($package);
-       $msg='Package added Successfully';
-  }else
-  {
-      
-      $msg='Failed to add a Package';
-  }
-  
- 
-  echo "<script type='text/javascript'>alert('$msg');</script>";
+    session_start();
 
-}
+    if($_SESSION['id'] && $_SESSION['UserType']=='admin')
+    {
+
+
+        require_once 'Admin.php';
+        require_once 'Trainer.php';
+        require_once 'Validation.php';
+
+        $PackageInfo=$JacuzziNo=$SpaNo=$SteamNo=$SaunaNo=$NumberOfMonths=$Price=$Discount="";
+        $PackageInfoErr=$JacuzziNoErr=$SpaNoErr=$SteamNoErr=$SaunaNoErr=$NumberOfMonthsErr=$PriceErr=$DiscountErr=""; 
+        $msg="";
+
+        $valid=new Validation();  
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            //remove unwanted characters from data
+            $_POST['PackageInfo']=$valid->test_input($_POST['PackageInfo']);
+            $_POST['JacuzziNo']= $valid->test_input($_POST['JacuzziNo']);
+            $_POST['SpaNo']= $valid->test_input($_POST['SpaNo']);
+            $_POST['SteamNo']= $valid->test_input($_POST['SteamNo']);
+            $_POST['SaunaNo']= $valid->test_input($_POST['SaunaNo']);
+            $_POST['NumberOfMonths']= $valid->test_input($_POST['NumberOfMonths']);
+            $_POST['Price']= $valid->test_input($_POST['Price']);
+            $_POST['Discount']= $valid->test_input($_POST['Discount']);
+
+            $PackageInfoErr=$valid->Text($_POST["PackageInfo"]);
+            $JacuzziNoErr=$valid->Number($_POST['JacuzziNo']);
+            $SpaNoErr=$valid->Number($_POST['SpaNo']);
+            $SteamNoErr=$valid->Number($_POST['SteamNo']);
+            $SaunaNoErr=$valid->Number($_POST['SaunaNo']);
+            $NumberOfMonthsErr=$valid->Number($_POST['NumberOfMonths']);
+            $PriceErr=$valid->Number($_POST['Price']);  
+            $DiscountErr=$valid->Number($_POST['Discount']);
+
+            $PackageInfo=$_POST['PackageInfo'];
+            $JacuzziNo=$_POST['JacuzziNo'];
+            $SpaNo=$_POST['SpaNo'];
+            $SteamNo=$_POST['SteamNo'];   
+            $SaunaNo=$_POST['SaunaNo'];
+            $NumberOfMonths=$_POST['NumberOfMonths'];   
+            $Price=$_POST['Price'];
+            $Discount=$_POST['Discount'];   
+
+
+
+
+          if($PackageInfoErr=="" && $JacuzziNoErr=="" &&  $SpaNoErr=="" && $SteamNoErr=="" && $SaunaNoErr=="" && $NumberOfMonthsErr=="" && $PriceErr=="" && $DiscountErr=="" )
+          {
+
+             $admin=new Admin();
+             $package=new Package();
+             $package->setPackageInfo($_POST['PackageInfo']);
+             $package->setJacuzziNo($_POST['JacuzziNo']);
+             $package->setSpaNo($_POST['SpaNo']);
+             $package->setSteamNo($_POST['SteamNo']);
+             $package->setSaunaNo($_POST['SaunaNo']);
+             $package->setNumberOfMonths($_POST['NumberOfMonths']);
+             $package->setPrice($_POST['Price']);
+             $package->setDiscount($_POST['Discount']);
+             $admin->AddPackage($package);
+               $msg='Package added Successfully';
+          }else
+          {
+
+              $msg='Failed to add a Package';
+          }
+
+
+          echo "<script type='text/javascript'>alert('$msg');</script>";
+
+        }
+    }else
+    {
+        echo "<script>alert('Must login');
+             window.location.href='index.php';
+              </script>";
+    }
 
 ?>
 

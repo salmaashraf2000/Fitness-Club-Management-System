@@ -1,8 +1,34 @@
 <?php
+class Payment{
+    
+    
+    private $Cash;
+    private $Electronic;
+     public function __construct(){
+     	$this->Cash=False;
+     	$this->Electronic=False;
+     }
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+     public function getCash()
+     {
+         return $this->Cash;
+     }
 
+     public function getElectronic() 
+     {
+         return $this->Electronic;
+     }
+
+     public function setCash($Cash) 
+     {
+         $this->Cash = $Cash;
+     }
+
+     public function setElectronic($Electronic) 
+     {
+         $this->Electronic = $Electronic;
+     }
+
+
+     
+}
