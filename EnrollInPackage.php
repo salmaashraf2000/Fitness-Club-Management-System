@@ -51,7 +51,10 @@
                 
                 //record enrollment data
                 $member->EnrollInPackage($enroll);
-               
+                echo "<script>alert('Successfully enrolled');
+                window.location.href='MemberViewPackages.php';
+                </script>";
+
             }
         }
     }else
@@ -71,8 +74,9 @@
     </head>
     <body>
      <form method="post">  
-     Sessions Time : 
+     Sessions Time :   <?php echo $SessionErr;?>
        <br><br>
+       
        <?php    $rows = count($sessions);
                 for($row=0;$row<$rows;$row++) 
                 {  ?>
@@ -84,6 +88,7 @@
                 
            
   <br><br>
+ 
   <br><br>
   Payment:
   <input type="radio" name="Payment"  value="cash"  >Cash

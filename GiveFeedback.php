@@ -24,7 +24,7 @@
         {
             $_POST['Feedback']=$valid->test_input($_POST['Feedback']);
             
-            
+            $feedbackErr=$valid->Text($_POST["Feedback"]);
             $trainerErr=$valid->Text($_POST['getTrainers']);
             
             $feedbackText=$_POST['Feedback'];
@@ -70,10 +70,11 @@
                 <option value=""></option>
                 <?php foreach ($trainers as $row){ 
                 $name=$row['FirstName'].' '.$row['LastName'];
-                echo "<option value=" .$row['ID'].">" .$name. "</option>";
+                echo "<option value=" .$row['id'].">" .$name. "</option>";
                 } ?>
                 </select><?php echo $trainerErr;?>
          <br><br>
+         Feedback:
          <textarea name="Feedback" rows="5" cols="40" ><?php  echo $feedbackText;?></textarea><?php echo $feedbackErr;?>
          <br><br>
          <input type="submit" name="submit" value="Submit" >

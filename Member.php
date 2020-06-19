@@ -76,12 +76,14 @@ class Member extends Person implements Profile{
     //give feedback
     public function GiveFeedback($feedback)
     {
-        $result= $this->select("EnrollementOfMember","TrainerID=$feedback->getTrainerID AND MemberID=$feedback->getMemberID",'',''); 
+        $trainerID=$feedback->getTrainerID();
+        $memberID=$feedback->getMemberID();
+        $result= $this->select("EnrollementOfMember","TrainerID=$trainerID AND MemberID=$memberID",'*',''); 
         if($this->countRows()>0)
         {
-        
+            
             $table='MembersFeedback';
-            $fields=array('Memberid'=>$feedback->getMemberID(),'trainerid'=>$feedback->getTainerID(),'Feedback'=>$feedback->getFeedback());
+            $fields=array('Memberid'=>$feedback->getMemberID(),'trainerid'=>$feedback->getTrainerID(),'Feedback'=>$feedback->getFeedback());
             $this->insert($table, $fields);
             return true;
         }

@@ -126,7 +126,7 @@ class Validation {
        $Err="";
         if (empty($radio)) 
         {
-           $Err='*This field is required field';
+           $Err='*This field is required';
         }
         return $Err;
    }

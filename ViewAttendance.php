@@ -56,10 +56,12 @@
                 <option value=""></option>
                 <?php foreach ($trainers as $row){ 
                 $name=$row['FirstName'].' '.$row['LastName'];
-                echo "<option value=" .$row['ID'].">" .$name. "</option>";
+                echo "<option value=" .$row['id'].">" .$name. "</option>";
                 } ?>
                 
             </select><?php echo $trainerErr;?>
+            
+            
             <br><br>
             Session Time : <select  name="time">
                 
