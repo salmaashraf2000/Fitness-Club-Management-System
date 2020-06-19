@@ -93,16 +93,8 @@ class Member extends Person implements Profile{
     {
         
             $table='EnrollementOfMember';
-            $payment="";
-            if($enroll->payment->getCash()==true)
-            {
-                $payment='cash';
-            } else 
-            {
-                $payment='electronic';    
-                
-            }
-            $fields=array('MemberID'=>$_SESSION['id'],'TrainerID'=>$enroll->getTainerID(),'SessionStartTime'=>$enroll->getSessionStartTime(),'SessionEndTime'=>$enroll->getSessionEndTime(),'StartDate'=>$enroll->getStartDate(),'EndDate'=>$enroll->getEndDate(),'Payment'=>$payment);
+            echo $_SESSION['id'].$enroll->getTrainerID().$enroll->getSessionStartTime().$enroll->getSessionEndTime().$enroll->getStartDate().$enroll->getEndDate().$enroll->getPayment();
+            $fields=array('MemberID'=>$_SESSION['id'],'TrainerID'=>$enroll->getTrainerID(),'SessionStartTime'=>$enroll->getSessionStartTime(),'SessionEndTime'=>$enroll->getSessionEndTime(),'StartDate'=>$enroll->getStartDate(),'EndDate'=>$enroll->getEndDate(),'Payment'=>$enroll->getPayment());
             $this->insert($table, $fields);
     }
     

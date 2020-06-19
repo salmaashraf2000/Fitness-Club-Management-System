@@ -48,6 +48,8 @@
                 $enroll->setStartDate($Startdate);
                 $enroll->setEndDate($EndDate);
                 $enroll->setTrainerID($arr[0]);
+                $member->EnrollInPackage($enroll);
+                echo 'enrolled';
             }
         }
     }else

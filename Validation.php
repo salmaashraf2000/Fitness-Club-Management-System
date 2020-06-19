@@ -120,6 +120,7 @@ class Validation {
        return $PhoneErr;
    }
    
+   //check if radion button is checked
    public function Radio($radio)
    {
        $Err="";

@@ -14,7 +14,7 @@ class Enrollment{
 
     public function __construct($payment)
     {
-        $payment=new Payment();
+        $this->payment=new Payment();
         $this->payment->setCash($payment->getCash());
         $this->payment->setElectronic($payment->getElectronic());
         
@@ -85,7 +85,7 @@ class Enrollment{
 
     public function CalculateEndDate($date,$Months)
     {
-        return date('d/m/Y', strtotime('+'.$Months.'months'));
+        return date('Y-m-d', strtotime('+'.$Months.'months'));
     }
 
 }
