@@ -73,9 +73,10 @@
         
     </head>
     <body>
-     <form method="post" action="">  
+     <form method="post" action="">
          First Name: <input type="text" name="FirstName" value="<?php  echo $FirstName;?>"><?php echo $FirstnameErr;?>
-  <br><br>
+            
+         <br><br>
    Last Name: <input type="text" name="LastName" value="<?php echo $LastName;?>"><?php echo $LastnameErr;?>
   <br><br>
   E-mail: <input type="email" name="Email" value="<?php echo $Email;?>"><?php echo $emailErr;?>

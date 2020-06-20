@@ -1,34 +1,24 @@
 <?php
 require 'config.php';
 trait mysql{
-            /*protected $_config =array();
-            protected $_link;
-            protected $_result;*/
+            
             private static $_config =array();
             private static $_link;
             private static $_result;
             
-            /*public function __construct(array $config) 
-            {
-                if(count($config)!==4)
-                {
-                    throw new InvalidArgumentException('Invalid number of connection parameter');
-                }
-                 $this->_config=$config;
-                 echo 'hello';
-            }*/
+            
             private function __construct(array $config) 
             {
                 if(count($config)!==4)
                 {
                     throw new InvalidArgumentException('Invalid number of connection parameter');
                 }
-                 //$this->_config=$config;
+                
                 self::$_config=$config;
-                 echo 'hello';
+                 
             }
             
-            //connect to mysql  //it was public only
+            //connect to mysql  
             public static function connect()
             {
                 global $config;
@@ -55,7 +45,7 @@ trait mysql{
                 $this->connect();
                 if(!self::$_result= mysqli_query(self::$_link,$query))
                 {
-                   // return false;
+                   
                     throw new RuntimeException('error executing query'.$query.mysqli_error(self::$_link));
                  
                 }
@@ -97,7 +87,7 @@ trait mysql{
                 {
                     $set[]=$field. '='.$this->Escape($value);
                 }
-                //
+                
                 $Set= implode(',', $set);
                 $query ='UPDATE '.$table.' SET '.$Set
                         .(($where)? ' WHERE '.$where : '');
@@ -158,7 +148,7 @@ trait mysql{
             //close database connection
             public function disconnect() 
             {
-                if(/*$this->_link===null*/self::$_link===null)
+                if(self::$_link===null)
                 {
                     return;
                 }
