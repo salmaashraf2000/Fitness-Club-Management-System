@@ -1,4 +1,6 @@
 <?php
+
+    include_once("AdminNavigationBar.html");
     session_start();
 
     if($_SESSION['id'] && $_SESSION['UserType']=='admin')
@@ -49,10 +51,31 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="Styles.css">
+        <style>
+            body {
+               background: url('https://image.freepik.com/free-photo/blur-gym-fitness_74190-4444.jpg')no-repeat center center fixed;
+               background-size: cover;
+               
+              
+            }
+        </style>
+
     </head>
     <body>
+    <div class="container"> 
+             <h1>View Attendance</h1> 
+    </div>    
+    <div class="container">   
         <form method="post" action="<?=$_SERVER['PHP_SELF'];?>"  >
-            Trainer Name : <select name="getTrainers">
+            <div class="form-group">  
+             <label class="col-sm-2"> Trainer Name : </label>
+             <div class="col-sm-4"> 
+              <select name="getTrainers" required="true" class="form-control"> 
                 <option value=""></option>
                 <?php foreach ($trainers as $row){ 
                 $name=$row['FirstName'].' '.$row['LastName'];
@@ -60,10 +83,13 @@
                 } ?>
                 
             </select><?php echo $trainerErr;?>
-            
-            
-            <br><br>
-            Session Time : <select  name="time">
+             </div>
+         </div>
+         <br><br>
+         <div class="form-group">  
+             <label class="col-sm-2"> Session Time : </label>
+             <div class="col-sm-4"> 
+              <select  name="time" required="true" class="form-control">
                 
                 <option value=""></option>
                 <option value="8-10">8:00 to 10:00</option>
@@ -75,18 +101,28 @@
                 <option value="20-22">20:00 to 22:00</option>
                 
             </select><?php echo $timeErr;?>
+             </div>
+         </div>
+         <br><br>
+         <div class="form-group">
+                     <label class="col-sm-2">Date :</label> 
+                     <div class="col-sm-4"> 
+                     <input type="date" id="Date" class="form-control" name="Date" required>
+                     </div>
+            </div>
             <br><br>
-            Date : <input type="date" id="Date" name="Date" required>
-            <br><br>
-            <input type="submit" name="btn"  value="Show Attendance">
+        <input type="submit" name="btn"  value="Show Attendance"class="btn btn-primary">
+        
             <br><br>
             
             <br><br>
         
              </form> 
-        
+      </div>
+         
+    <div class="container">   
         <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $trainerErr=="" && $timeErr=="" && $membersAttendance){ ?>
-        <table id="viewAttendance" name="viewAttendance"  cellpadding="8">
+        <table id="viewAttendance" name="viewAttendance"  cellpadding="8" class="table table-striped table-bordered">
             <thread>
                 <tr>
                     <th>Member Name</th>
@@ -106,6 +142,7 @@
        <?php }else{
           echo 'No Results to show';
        } ?>  
+    </div> 
     </body>
 </html>
 

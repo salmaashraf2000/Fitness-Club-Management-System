@@ -2,7 +2,7 @@
 <?php
 
 
-
+    include_once("AdminNavigationBar.html");
     session_start();
 
     if($_SESSION['id'] && $_SESSION['UserType']=='admin')
@@ -90,30 +90,85 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
+         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="Styles.css">
+        <style>
+            body {
+               background: url('https://image.freepik.com/free-photo/blur-gym-fitness_74190-4444.jpg')no-repeat center center fixed;
+               background-size: cover;
+               
+              
+            }
+        </style>
+
     </head>
     <body>
-     <form method="post" action="">  
-    Price: <input type="number" name="Price" min="0" value="<?php echo $Price;?>"><?php echo $PriceErr;?>
-  <br><br>
-  Discount: <input type="number" name="Discount" min="0" value="<?php echo $Discount;?>"><?php echo $DiscountErr;?>
-  <br><br>     
-  Number of sessions of Jacuzzi: <input type="number" name="JacuzziNo" min="0" value="<?php echo $JacuzziNo;?>"><?php echo $JacuzziNoErr;?>
-  <br><br>
- Number of sessions of Spa: <input type="number" name="SpaNo" min="0" value="<?php echo $SpaNo;?>"><?php echo $SpaNoErr;?>
-  <br><br>
-  Number of sessions of Steam: <input type="number" name="SteamNo" min="0" value="<?php echo $SteamNo;?>"><?php echo $SteamNoErr;?>
-  <br><br>
-  Number of sessions of Sauna: <input type="number" name="SaunaNo" min="0" value="<?php echo $SaunaNo;?>"><?php echo $SaunaNoErr;?>
-  <br><br>
-  Package Number of Months: <input type="number" name="NumberOfMonths" min="1" value="<?php echo $NumberOfMonths;?>"><?php echo $NumberOfMonthsErr;?>
-  <br><br>
-  Package Description: 
-  <br><br>
-  <textarea name="PackageInfo" rows="5" cols="40" ><?php  echo $PackageInfo;?></textarea><?php echo $PackageInfoErr;?>
-  <br><br>
-  <input type="submit" name="submit" value="Submit" >  
-</form>
-        
+    <div class="container"> 
+             <h1>Add Package</h1> 
+    </div>    
+    <div class="container">       
+        <form method="post" action="">  
+
+           <div class="form-group">      
+                     <label class="col-sm-2">Price: </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="Price" min="0" class="form-control" placeholder="enter package price" value="<?php echo $Price;?>"required="true"><?php echo $PriceErr;?>
+                     </div>
+                 </div>
+            <br><br>
+            <div class="form-group">
+                     <label class="col-sm-2">Discount: </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="Discount" min="0" value="<?php echo $Discount;?>" placeholder="enter discount" class="form-control" required="true"><?php echo $DiscountErr;?>
+                     </div>
+            </div>
+             <br><br>
+            <div class="form-group">
+                     <label class="col-sm-2">Number of sessions of Jacuzzi: </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="JacuzziNo" min="0" placeholder="enter number of sessions" class="form-control" value="<?php echo $JacuzziNo;?>" required="true"><?php echo $JacuzziNoErr;?>            
+                     </div>
+            </div>
+            <br><br>
+             <div class="form-group">
+                     <label class="col-sm-2">Number of sessions of Spa:  </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="SpaNo" min="0" placeholder="enter number of sessions" class="form-control" value="<?php echo $SpaNo;?>" required="true"><?php echo $SpaNoErr;?>
+                     </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                     <label class="col-sm-2"> Number of sessions of Steam: </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="SteamNo" min="0" placeholder="enter number of sessions" class="form-control" value="<?php echo $SteamNo;?>" required="true"><?php echo $SteamNoErr;?>
+                     </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                     <label class="col-sm-2">Number of sessions of Sauna: </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="SaunaNo" min="0" placeholder="enter number of sessions" class="form-control" value="<?php echo $SaunaNo;?>" required="true"><?php echo $SaunaNoErr;?>             </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                     <label class="col-sm-2">Package's Number of Months: </label> 
+                     <div class="col-sm-4"> 
+                     <input type="number" name="NumberOfMonths" min="1" placeholder="enter number of months of package" class="form-control" value="<?php echo $NumberOfMonths;?>" required="true"><?php echo $NumberOfMonthsErr;?>             </div>
+            </div>
+            <br><br>
+            <div class="form-group">
+                     <label class="col-sm-2">Package Description: </label> 
+                     <div class="col-sm-4"> 
+                     <textarea name="PackageInfo" rows="5" cols="40" placeholder="describe the package" class="form-control" required="true"><?php  echo $PackageInfo;?></textarea><?php echo $PackageInfoErr;?>
+                     </div>
+            </div>
+            <br><br>
+             <input type="submit" class="btn btn-primary" name="submit" value="Submit">      
+       </form>
+    </div>    
     </body>
 </html>
 

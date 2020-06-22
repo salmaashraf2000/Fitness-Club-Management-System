@@ -7,13 +7,13 @@ $UserType=filter_input(INPUT_GET,'UserType',FILTER_SANITIZE_STRING);
 $admin->DeleteUser($ID);
 
 
-if($UserType=='admin')
+if($_SESSION['UserType']=='admin')
 {
  header("Location:ViewAdmins.php");    
-}else if($UserType=='member')
+}else if($_SESSION['UserType']=='member')
 {
     header("Location:ViewMembers.php");
-}else if($row['UserType']=='trainer')
+}else if($_SESSION['UserType']=='trainer')
 {
     header("Location:ViewTrainers.php");
 }

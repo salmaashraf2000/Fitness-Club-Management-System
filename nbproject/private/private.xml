@@ -22,6 +22,7 @@
             <file>file:/C:/xampp/htdocs/PhpProject/ViewTrainers.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/SignUp.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Logout.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/AdminNavigationBar.html</file>
             <file>file:/C:/xampp/htdocs/PhpProject/AddPackage.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Admin.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/index.php</file>
@@ -29,6 +30,7 @@
             <file>file:/C:/xampp/htdocs/PhpProject/Profile.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/EditProfile.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Feedback.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/TrainerNavigationBar.html</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Member.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Package.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/Payment.php</file>
@@ -43,6 +45,7 @@
             <file>file:/C:/xampp/htdocs/PhpProject/ViewProfileAdmin.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/EditPackage.php</file>
             <file>file:/C:/xampp/htdocs/PhpProject/GiveFeedback.php</file>
+            <file>file:/C:/xampp/htdocs/PhpProject/MemberNavigationBar.html</file>
         </group>
     </open-files>
 </project-private>
